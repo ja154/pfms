@@ -1,0 +1,97 @@
+
+import React from 'react';
+import type { ViewType } from '../../App';
+
+interface SidebarProps {
+  activeView: ViewType;
+  setActiveView: (view: ViewType) => void;
+}
+
+const NavItem: React.FC<{
+  icon: React.ReactNode;
+  label: string;
+  isActive: boolean;
+  onClick: () => void;
+}> = ({ icon, label, isActive, onClick }) => {
+  return (
+    <li
+      onClick={onClick}
+      className={`flex items-center p-3 my-1 rounded-lg cursor-pointer transition-all duration-200 ${
+        isActive
+          ? 'bg-brand-green-600 text-white shadow-md'
+          : 'text-gray-600 hover:bg-brand-green-100 hover:text-brand-green-800'
+      }`}
+    >
+      {icon}
+      <span className="ml-4 font-semibold">{label}</span>
+    </li>
+  );
+};
+
+const DashboardIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"></rect><rect width="7" height="5" x="14" y="3" rx="1"></rect><rect width="7" height="9" x="14" y="12" rx="1"></rect><rect width="7" height="5" x="3" y="16" rx="1"></rect></svg>
+);
+const PoultryIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18.43 5.43a2.43 2.43 0 1 0-2.86 2.86"></path><path d="M13.78 12.57 6.2 20.15s-2.83-2.83-2.83-5.66S6.2 8.83 6.2 8.83Z"></path><path d="m14 14 3 3"></path><path d="M12.57 13.78 20.15 6.2s2.83 2.83 2.83 5.66-2.83 5.66-2.83 5.66Z"></path><path d="m10 10-3 3"></path></svg>
+);
+const FeedIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22a2 2 0 0 0 2-2h-4a2 2 0 0 0 2 2z"></path><path d="M20 13v-3a8 8 0 1 0-16 0v3"></path><path d="M20 13h-2c0-2.21-1.79-4-4-4s-4 1.79-4 4H8"></path><path d="M12 13v8"></path></svg>
+);
+const RecordsIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><line x1="10" y1="9" x2="8" y2="9"></line></svg>
+);
+const SettingsIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+);
+
+
+const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView }) => {
+  return (
+    <aside className="w-64 bg-white shadow-lg flex-shrink-0 z-30 p-4 flex flex-col">
+      <div className="flex items-center justify-center mb-8 pt-4">
+        <img src="https://picsum.photos/seed/poultry/40/40" alt="Logo" className="rounded-full" />
+        <span className="ml-3 text-2xl font-bold text-brand-green-800">PFMS</span>
+      </div>
+      <nav className="flex-1">
+        <ul>
+          <NavItem
+            icon={<DashboardIcon />}
+            label="Dashboard"
+            isActive={activeView === 'dashboard'}
+            onClick={() => setActiveView('dashboard')}
+          />
+          <NavItem
+            icon={<PoultryIcon />}
+            label="Poultry"
+            isActive={activeView === 'poultry'}
+            onClick={() => setActiveView('poultry')}
+          />
+          <NavItem
+            icon={<FeedIcon />}
+            label="Feed"
+            isActive={activeView === 'feed'}
+            onClick={() => setActiveView('feed')}
+          />
+          <NavItem
+            icon={<RecordsIcon />}
+            label="Records"
+            isActive={activeView === 'records'}
+            onClick={() => setActiveView('records')}
+          />
+        </ul>
+      </nav>
+      <div>
+         <ul>
+           <NavItem
+            icon={<SettingsIcon />}
+            label="Settings"
+            isActive={activeView === 'settings'}
+            onClick={() => setActiveView('settings')}
+          />
+         </ul>
+      </div>
+    </aside>
+  );
+};
+
+export default Sidebar;
