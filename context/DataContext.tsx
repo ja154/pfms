@@ -1,11 +1,13 @@
+
 import React, { createContext, useReducer, useContext, ReactNode } from 'react';
-import { PoultryCategory, FeedStock, FarmRecord, RecordType, FeedPurchaseRecord, PoultryCountChangeRecord } from '../types';
+import { PoultryCategory, FeedStock, FarmRecord, RecordType, FeedPurchaseRecord, PoultryCountChangeRecord, CalendarTask } from '../types';
 
 interface AppState {
   farmName: string;
   poultry: PoultryCategory[];
   feed: FeedStock;
   records: FarmRecord[];
+  tasks: CalendarTask[];
 }
 
 type Action = 
@@ -16,7 +18,10 @@ type Action =
   | { type: 'UPDATE_POULTRY_CATEGORY', payload: PoultryCategory }
   | { type: 'DELETE_POULTRY_CATEGORY', payload: string } // id
   | { type: 'UPDATE_FEED'; payload: Partial<FeedStock> }
-  | { type: 'UPDATE_FARM_NAME', payload: string };
+  | { type: 'UPDATE_FARM_NAME', payload: string }
+  | { type: 'ADD_TASK', payload: CalendarTask }
+  | { type: 'UPDATE_TASK', payload: CalendarTask }
+  | { type: 'DELETE_TASK', payload: string }; // id
 
 const initialState: AppState = {
   farmName: 'Green Acre Poultry Farm',
@@ -54,6 +59,28 @@ const initialState: AppState = {
       vaccineType: 'Infectious Bronchitis',
       birdsVaccinated: 1250,
       nextDueDate: new Date(new Date().setDate(new Date().getDate() - 2)).toISOString().split('T')[0],
+    },
+  ],
+  tasks: [
+    {
+      id: 't1',
+      date: new Date().toISOString().split('T')[0],
+      title: 'Clean the main coop',
+      description: 'Full cleanout, change litter, and disinfect.',
+      completed: false,
+    },
+    {
+      id: 't2',
+      date: new Date(new Date().setDate(new Date().getDate() + 3)).toISOString().split('T')[0],
+      title: 'Order new batch of feed',
+      description: 'Order 1500kg of grower feed.',
+      completed: false,
+    },
+     {
+      id: 't3',
+      date: new Date(new Date().setDate(new Date().getDate() + 3)).toISOString().split('T')[0],
+      title: 'Repair fence on west pasture',
+      completed: true,
     },
   ],
 };
@@ -146,6 +173,12 @@ const appReducer = (state: AppState, action: Action): AppState => {
         return { ...state, poultry: state.poultry.filter(p => p.id !== action.payload) };
     case 'UPDATE_FEED':
         return { ...state, feed: { ...state.feed, ...action.payload } };
+    case 'ADD_TASK':
+      return { ...state, tasks: [...state.tasks, action.payload].sort((a,b) => new Date(a.date).getTime() - new Date(b.date).getTime()) };
+    case 'UPDATE_TASK':
+      return { ...state, tasks: state.tasks.map(t => t.id === action.payload.id ? action.payload : t) };
+    case 'DELETE_TASK':
+      return { ...state, tasks: state.tasks.filter(t => t.id !== action.payload) };
     default:
       return state;
   }

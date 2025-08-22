@@ -1,3 +1,4 @@
+
 export interface PoultryCategory {
   id: string;
   name: string;
@@ -51,3 +52,11 @@ export interface PoultryCountChangeRecord {
 
 
 export type FarmRecord = FeedPurchaseRecord | VaccinationRecord | PoultryCountChangeRecord;
+
+export interface CalendarTask {
+  id: string;
+  date: string; // YYYY-MM-DD
+  title: string;
+  description?: string;
+  completed: boolean;
+}

@@ -9,8 +9,9 @@ import FeedManagement from './components/feed/FeedManagement';
 import RecordsView from './components/records/RecordsView';
 import { DataProvider } from './context/DataContext';
 import Settings from './components/settings/Settings';
+import CalendarView from './components/calendar/CalendarView';
 
-export type ViewType = 'dashboard' | 'poultry' | 'feed' | 'records' | 'settings';
+export type ViewType = 'dashboard' | 'poultry' | 'feed' | 'records' | 'calendar' | 'settings';
 
 const App: React.FC = () => {
   const [activeView, setActiveView] = useState<ViewType>('dashboard');
@@ -25,6 +26,8 @@ const App: React.FC = () => {
         return <FeedManagement />;
       case 'records':
         return <RecordsView />;
+      case 'calendar':
+        return <CalendarView />;
       case 'settings':
         return <Settings />;
       default:
