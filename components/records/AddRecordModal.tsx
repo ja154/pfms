@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useData } from '../../context/DataContext';
 import { RecordType, FarmRecord, FeedPurchaseRecord, VaccinationRecord, PoultryCountChangeRecord, PoultryChangeType, PoultryChangeReason } from '../../types';
@@ -32,6 +33,8 @@ const AddRecordModal: React.FC<ModalProps> = ({ isOpen, onClose, recordToEdit })
   const [changeType, setChangeType] = useState<PoultryChangeType>('reduction');
   const [reason, setReason] = useState<PoultryChangeReason>('sold');
   const [changeAmount, setChangeAmount] = useState(0);
+  
+  const inputStyles = "w-full p-2 bg-white text-gray-900 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-brand-green-500 transition-shadow";
 
 
   const reasonOptions = changeType === 'addition'
@@ -119,7 +122,7 @@ const AddRecordModal: React.FC<ModalProps> = ({ isOpen, onClose, recordToEdit })
           <div className="p-6">
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-1">Record Type</label>
-              <select value={recordType} onChange={e => setRecordType(e.target.value as RecordType)} disabled={isEditMode} className="w-full p-2 border border-gray-300 rounded-md disabled:bg-gray-100">
+              <select value={recordType} onChange={e => setRecordType(e.target.value as RecordType)} disabled={isEditMode} className={`${inputStyles} disabled:bg-gray-100`}>
                 <option value={RecordType.FeedPurchase}>Feed Purchase</option>
                 <option value={RecordType.Vaccination}>Vaccination</option>
                 <option value={RecordType.PoultryCountChange}>Poultry Count Change</option>
@@ -127,23 +130,23 @@ const AddRecordModal: React.FC<ModalProps> = ({ isOpen, onClose, recordToEdit })
             </div>
              <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-1">Date</label>
-                <input type="date" value={date} onChange={e => setDate(e.target.value)} required className="w-full p-2 border border-gray-300 rounded-md" />
+                <input type="date" value={date} onChange={e => setDate(e.target.value)} required className={inputStyles} />
             </div>
 
             {recordType === RecordType.FeedPurchase && (
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Supplier</label>
-                  <input type="text" value={supplier} onChange={e => setSupplier(e.target.value)} required className="w-full p-2 border border-gray-300 rounded-md" />
+                  <input type="text" value={supplier} onChange={e => setSupplier(e.target.value)} required className={inputStyles} />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                    <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Amount (kg)</label>
-                    <input type="number" value={amount} onChange={e => setAmount(Number(e.target.value))} required min="0" className="w-full p-2 border border-gray-300 rounded-md" />
+                    <input type="number" value={amount} onChange={e => setAmount(Number(e.target.value))} required min="0" className={inputStyles} />
                    </div>
                    <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Total Cost ($)</label>
-                    <input type="number" value={cost} onChange={e => setCost(Number(e.target.value))} required min="0" className="w-full p-2 border border-gray-300 rounded-md" />
+                    <input type="number" value={cost} onChange={e => setCost(Number(e.target.value))} required min="0" className={inputStyles} />
                    </div>
                 </div>
               </div>
@@ -153,16 +156,16 @@ const AddRecordModal: React.FC<ModalProps> = ({ isOpen, onClose, recordToEdit })
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Vaccine Type</label>
-                  <input type="text" value={vaccineType} onChange={e => setVaccineType(e.target.value)} required className="w-full p-2 border border-gray-300 rounded-md" />
+                  <input type="text" value={vaccineType} onChange={e => setVaccineType(e.target.value)} required className={inputStyles} />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                    <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Birds Vaccinated</label>
-                    <input type="number" value={birdsVaccinated} onChange={e => setBirdsVaccinated(Number(e.target.value))} required min="0" className="w-full p-2 border border-gray-300 rounded-md" />
+                    <input type="number" value={birdsVaccinated} onChange={e => setBirdsVaccinated(Number(e.target.value))} required min="0" className={inputStyles} />
                    </div>
                    <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Next Due Date</label>
-                    <input type="date" value={nextDueDate} onChange={e => setNextDueDate(e.target.value)} required className="w-full p-2 border border-gray-300 rounded-md" />
+                    <input type="date" value={nextDueDate} onChange={e => setNextDueDate(e.target.value)} required className={inputStyles} />
                    </div>
                 </div>
               </div>
@@ -172,36 +175,36 @@ const AddRecordModal: React.FC<ModalProps> = ({ isOpen, onClose, recordToEdit })
                  <div className="space-y-4">
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Poultry Category</label>
-                        <select value={poultryCategoryId} onChange={e => setPoultryCategoryId(e.target.value)} required className="w-full p-2 border border-gray-300 rounded-md">
+                        <select value={poultryCategoryId} onChange={e => setPoultryCategoryId(e.target.value)} required className={inputStyles}>
                            {state.poultry.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
                         </select>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">Change Type</label>
-                            <select value={changeType} onChange={e => setChangeType(e.target.value as PoultryChangeType)} required className="w-full p-2 border border-gray-300 rounded-md">
+                            <select value={changeType} onChange={e => setChangeType(e.target.value as PoultryChangeType)} required className={inputStyles}>
                                 <option value="reduction">Reduction</option>
                                 <option value="addition">Addition</option>
                             </select>
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">Reason</label>
-                            <select value={reason} onChange={e => setReason(e.target.value as PoultryChangeReason)} required className="w-full p-2 border border-gray-300 rounded-md">
+                            <select value={reason} onChange={e => setReason(e.target.value as PoultryChangeReason)} required className={inputStyles}>
                                 {reasonOptions.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
                             </select>
                         </div>
                     </div>
                      <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Number of Birds</label>
-                        <input type="number" value={changeAmount} onChange={e => setChangeAmount(Number(e.target.value))} required min="1" className="w-full p-2 border border-gray-300 rounded-md" />
+                        <input type="number" value={changeAmount} onChange={e => setChangeAmount(Number(e.target.value))} required min="1" className={inputStyles} />
                     </div>
                  </div>
             )}
 
           </div>
-          <div className="bg-gray-50 px-6 py-3 flex justify-end space-x-3 rounded-b-lg">
-            <button type="button" onClick={onClose} className="px-4 py-2 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300">Cancel</button>
-            <button type="submit" className="px-4 py-2 bg-brand-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-brand-green-700">Save Record</button>
+          <div className="bg-gray-50 px-6 py-4 flex justify-end space-x-3 rounded-b-lg border-t">
+            <button type="button" onClick={onClose} className="px-4 py-2 bg-gray-200 text-gray-800 font-semibold rounded-lg hover:bg-gray-300 transition-colors">Cancel</button>
+            <button type="submit" className="px-5 py-2.5 bg-brand-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-brand-green-700 hover:shadow-glow-green transition-all duration-300">Save Record</button>
           </div>
         </form>
     </Modal>

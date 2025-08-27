@@ -40,11 +40,11 @@ const App: React.FC = () => {
 
   return (
     <DataProvider>
-      <div className="flex h-screen bg-gray-50 text-gray-800">
+      <div className="flex h-screen bg-gray-100 text-gray-800">
         <Sidebar activeView={activeView} setActiveView={setActiveView} />
         <div className="flex flex-col flex-1 h-full overflow-hidden">
           <Header />
-          <main className="flex-1 overflow-x-hidden overflow-y-auto bg-brand-brown-50 p-6 md:p-8">
+          <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-6 md:p-8">
             {renderView()}
           </main>
         </div>

@@ -30,7 +30,7 @@ const PoultryManagement: React.FC = () => {
         <div className="space-y-6">
             <div className="flex justify-between items-center">
                 <h2 className="text-2xl font-bold text-brand-green-900">Poultry Inventory</h2>
-                <button onClick={openAddModal} className="px-4 py-2 bg-brand-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-brand-green-700 transition-colors">
+                <button onClick={openAddModal} className="px-5 py-2.5 bg-brand-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-brand-green-700 hover:shadow-glow-green transition-all duration-300">
                     Add New Category
                 </button>
             </div>
@@ -50,8 +50,8 @@ const PoultryManagement: React.FC = () => {
                                     <td className="p-4 font-medium text-gray-800">{category.name}</td>
                                     <td className="p-4 font-semibold text-brand-green-800 text-right">{category.count.toLocaleString()}</td>
                                     <td className="p-4 text-center">
-                                        <button onClick={() => openEditModal(category)} className="text-blue-600 hover:text-blue-800 font-medium mr-3">Edit</button>
-                                        <button onClick={() => handleDelete(category.id)} className="text-red-600 hover:text-red-800 font-medium">Delete</button>
+                                        <button onClick={() => openEditModal(category)} className="text-blue-600 hover:text-blue-800 font-medium mr-3 hover:underline">Edit</button>
+                                        <button onClick={() => handleDelete(category.id)} className="text-red-600 hover:text-red-800 font-medium hover:underline">Delete</button>
                                     </td>
                                 </tr>
                             ))}

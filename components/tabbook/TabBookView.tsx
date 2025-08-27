@@ -56,10 +56,10 @@ const TabBookView: React.FC = () => {
             <div className="flex flex-wrap justify-between items-center gap-4">
                 <h2 className="text-2xl font-bold text-brand-green-900">Tab Book</h2>
                 <div className="flex gap-2">
-                     <button onClick={openAddSupplierModal} className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition-colors">
+                     <button onClick={openAddSupplierModal} className="px-5 py-2.5 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 hover:shadow-glow-blue transition-all duration-300">
                         Add Supplier
                     </button>
-                    <button onClick={openAddTransactionModal} className="px-4 py-2 bg-brand-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-brand-green-700 transition-colors">
+                    <button onClick={openAddTransactionModal} className="px-5 py-2.5 bg-brand-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-brand-green-700 hover:shadow-glow-green transition-all duration-300">
                         Add Transaction
                     </button>
                 </div>

@@ -16,9 +16,9 @@ const NavItem: React.FC<{
   return (
     <li
       onClick={onClick}
-      className={`flex items-center p-3 my-1 rounded-lg cursor-pointer transition-all duration-200 ${
+      className={`flex items-center p-3 my-1 rounded-lg cursor-pointer transition-all duration-200 group ${
         isActive
-          ? 'bg-brand-green-600 text-white shadow-md'
+          ? 'bg-brand-green-600 text-white shadow-lg shadow-brand-green-500/30'
           : 'text-gray-600 hover:bg-brand-green-100 hover:text-brand-green-800'
       }`}
     >

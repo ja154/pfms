@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo } from 'react';
 import Card from '../ui/Card';
 import { useData } from '../../context/DataContext';
@@ -52,17 +53,17 @@ const RecordsView: React.FC = () => {
         <div className="space-y-6">
              <div className="flex justify-between items-center">
                 <h2 className="text-2xl font-bold text-brand-green-900">Farm Records</h2>
-                <button onClick={openAddModal} className="px-4 py-2 bg-brand-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-brand-green-700 transition-colors">
+                <button onClick={openAddModal} className="px-5 py-2.5 bg-brand-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-brand-green-700 hover:shadow-glow-green transition-all duration-300">
                     Add New Record
                 </button>
             </div>
             
             <Card>
                 <div className="flex justify-start space-x-2 mb-4 border-b border-gray-200 pb-2 flex-wrap">
-                    <button onClick={() => setFilter('all')} className={`px-4 py-1.5 text-sm font-medium rounded-full mb-2 ${filter === 'all' ? 'bg-brand-green-600 text-white' : 'text-gray-600 hover:bg-brand-green-100'}`}>All</button>
-                    <button onClick={() => setFilter(RecordType.FeedPurchase)} className={`px-4 py-1.5 text-sm font-medium rounded-full mb-2 ${filter === RecordType.FeedPurchase ? 'bg-brand-green-600 text-white' : 'text-gray-600 hover:bg-brand-green-100'}`}>{RecordType.FeedPurchase}</button>
-                    <button onClick={() => setFilter(RecordType.Vaccination)} className={`px-4 py-1.5 text-sm font-medium rounded-full mb-2 ${filter === RecordType.Vaccination ? 'bg-brand-green-600 text-white' : 'text-gray-600 hover:bg-brand-green-100'}`}>{RecordType.Vaccination}</button>
-                    <button onClick={() => setFilter(RecordType.PoultryCountChange)} className={`px-4 py-1.5 text-sm font-medium rounded-full mb-2 ${filter === RecordType.PoultryCountChange ? 'bg-brand-green-600 text-white' : 'text-gray-600 hover:bg-brand-green-100'}`}>{RecordType.PoultryCountChange}</button>
+                    <button onClick={() => setFilter('all')} className={`px-4 py-1.5 text-sm font-medium rounded-full mb-2 transition-colors ${filter === 'all' ? 'bg-brand-green-600 text-white' : 'text-gray-600 hover:bg-brand-green-100'}`}>All</button>
+                    <button onClick={() => setFilter(RecordType.FeedPurchase)} className={`px-4 py-1.5 text-sm font-medium rounded-full mb-2 transition-colors ${filter === RecordType.FeedPurchase ? 'bg-brand-green-600 text-white' : 'text-gray-600 hover:bg-brand-green-100'}`}>{RecordType.FeedPurchase}</button>
+                    <button onClick={() => setFilter(RecordType.Vaccination)} className={`px-4 py-1.5 text-sm font-medium rounded-full mb-2 transition-colors ${filter === RecordType.Vaccination ? 'bg-brand-green-600 text-white' : 'text-gray-600 hover:bg-brand-green-100'}`}>{RecordType.Vaccination}</button>
+                    <button onClick={() => setFilter(RecordType.PoultryCountChange)} className={`px-4 py-1.5 text-sm font-medium rounded-full mb-2 transition-colors ${filter === RecordType.PoultryCountChange ? 'bg-brand-green-600 text-white' : 'text-gray-600 hover:bg-brand-green-100'}`}>{RecordType.PoultryCountChange}</button>
                 </div>
 
                 <div className="overflow-x-auto">
@@ -90,8 +91,8 @@ const RecordsView: React.FC = () => {
                                     </td>
                                     <td className="p-4 text-sm text-gray-700">{getRecordDescription(record)}</td>
                                     <td className="p-4 text-center">
-                                        <button onClick={() => openEditModal(record)} className="text-blue-600 hover:text-blue-800 font-medium mr-3">Edit</button>
-                                        <button onClick={() => handleDelete(record.id)} className="text-red-600 hover:text-red-800 font-medium">Delete</button>
+                                        <button onClick={() => openEditModal(record)} className="text-blue-600 hover:text-blue-800 font-medium mr-3 hover:underline">Edit</button>
+                                        <button onClick={() => handleDelete(record.id)} className="text-red-600 hover:text-red-800 font-medium hover:underline">Delete</button>
                                     </td>
                                 </tr>
                             ))}

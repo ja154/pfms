@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo } from 'react';
 import { useData } from '../../context/DataContext';
 import Calendar from './Calendar';
@@ -67,7 +68,7 @@ const CalendarView: React.FC = () => {
         <div className="space-y-6">
             <div className="flex justify-between items-center">
                 <h2 className="text-2xl font-bold text-brand-green-900">Calendar & Tasks</h2>
-                <button onClick={openAddTaskModal} className="px-4 py-2 bg-brand-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-brand-green-700 transition-colors">
+                <button onClick={openAddTaskModal} className="px-5 py-2.5 bg-brand-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-brand-green-700 hover:shadow-glow-green transition-all duration-300">
                     Add New Task
                 </button>
             </div>

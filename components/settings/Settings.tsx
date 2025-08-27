@@ -29,14 +29,14 @@ const Settings: React.FC = () => {
                             id="farmName"
                             value={farmName}
                             onChange={(e) => setFarmName(e.target.value)}
-                            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-brand-green-500 focus:border-brand-green-500"
+                            className="w-full p-2 bg-white text-gray-900 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-brand-green-500 transition-shadow"
                         />
                     </div>
                     <div className="flex items-center justify-end">
                          {saved && <span className="text-sm text-brand-green-700 mr-4">Saved successfully!</span>}
                         <button
                             type="submit"
-                            className="px-6 py-2 bg-brand-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-brand-green-700 transition-colors"
+                            className="px-6 py-2 bg-brand-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-brand-green-700 hover:shadow-glow-green transition-all duration-300"
                         >
                             Save Changes
                         </button>

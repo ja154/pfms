@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useMemo } from 'react';
 import Card from '../ui/Card';
 import { useData } from '../../context/DataContext';
@@ -9,6 +10,8 @@ const FeedManagement: React.FC = () => {
 
     const [isEditing, setIsEditing] = useState(false);
     const [editableFeed, setEditableFeed] = useState({ ...feed });
+    const inputStyles = "w-full p-2 bg-white text-gray-900 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-brand-green-500 transition-shadow";
+
 
     useEffect(() => {
         setEditableFeed(feed);
@@ -39,10 +42,10 @@ const FeedManagement: React.FC = () => {
                  {isEditing ? (
                      <div className="space-x-2">
                         <button onClick={() => setIsEditing(false)} className="px-4 py-2 bg-gray-200 text-gray-800 font-semibold rounded-lg hover:bg-gray-300 transition-colors">Cancel</button>
-                        <button onClick={handleSave} className="px-4 py-2 bg-brand-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-brand-green-700 transition-colors">Save Changes</button>
+                        <button onClick={handleSave} className="px-5 py-2.5 bg-brand-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-brand-green-700 hover:shadow-glow-green transition-all duration-300">Save Changes</button>
                      </div>
                  ) : (
-                    <button onClick={() => setIsEditing(true)} className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition-colors">Edit Data</button>
+                    <button onClick={() => setIsEditing(true)} className="px-5 py-2.5 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 hover:shadow-glow-blue transition-all duration-300">Edit Data</button>
                  )}
             </div>
 
@@ -56,7 +59,7 @@ const FeedManagement: React.FC = () => {
                                 type="number"
                                 value={editableFeed.total}
                                 onChange={e => setEditableFeed({...editableFeed, total: Number(e.target.value)})}
-                                className="w-full p-2 border border-gray-300 rounded-md text-2xl font-bold"
+                                className={`${inputStyles} text-2xl font-bold`}
                             />
                         </div>
                     ) : (
@@ -80,7 +83,7 @@ const FeedManagement: React.FC = () => {
                                     type="number"
                                     value={editableFeed.dailyConsumption}
                                     onChange={e => setEditableFeed({...editableFeed, dailyConsumption: Number(e.target.value)})}
-                                    className="w-full p-2 border border-gray-300 rounded-md text-xl font-bold"
+                                    className={`${inputStyles} text-xl font-bold`}
                                 />
                             </div>
                         ) : (
