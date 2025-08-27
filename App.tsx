@@ -10,8 +10,9 @@ import RecordsView from './components/records/RecordsView';
 import { DataProvider } from './context/DataContext';
 import Settings from './components/settings/Settings';
 import CalendarView from './components/calendar/CalendarView';
+import TabBookView from './components/tabbook/TabBookView';
 
-export type ViewType = 'dashboard' | 'poultry' | 'feed' | 'records' | 'calendar' | 'settings';
+export type ViewType = 'dashboard' | 'poultry' | 'feed' | 'records' | 'calendar' | 'settings' | 'tabbook';
 
 const App: React.FC = () => {
   const [activeView, setActiveView] = useState<ViewType>('dashboard');
@@ -30,6 +31,8 @@ const App: React.FC = () => {
         return <CalendarView />;
       case 'settings':
         return <Settings />;
+      case 'tabbook':
+        return <TabBookView />;
       default:
         return <Dashboard />;
     }

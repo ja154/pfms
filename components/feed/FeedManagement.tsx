@@ -1,11 +1,11 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Card from '../ui/Card';
 import { useData } from '../../context/DataContext';
+import { RecordType, FeedPurchaseRecord } from '../../types';
 
 const FeedManagement: React.FC = () => {
     const { state, dispatch } = useData();
-    const { feed } = state;
+    const { feed, records } = state;
 
     const [isEditing, setIsEditing] = useState(false);
     const [editableFeed, setEditableFeed] = useState({ ...feed });
@@ -25,6 +25,12 @@ const FeedManagement: React.FC = () => {
     const feedDaysLeft = editableFeed.total > 0 && editableFeed.dailyConsumption > 0 ? Math.floor(editableFeed.total / editableFeed.dailyConsumption) : 0;
     const stockPercentage = 5000; // Assuming max capacity is 5000kg for percentage calculation
     const percentage = Math.min((editableFeed.total / stockPercentage) * 100, 100);
+
+    const feedPurchaseHistory = useMemo(() => {
+        return records
+            .filter((r): r is FeedPurchaseRecord => r.type === RecordType.FeedPurchase)
+            .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    }, [records]);
 
     return (
         <div className="space-y-6">
@@ -92,7 +98,34 @@ const FeedManagement: React.FC = () => {
             </div>
              <Card>
                  <h3 className="text-lg font-semibold text-gray-700 mb-4">Feed Purchase History</h3>
-                 <p className="text-gray-600">You can view and add feed purchase records in the <span className="font-bold text-brand-green-700">Records</span> section.</p>
+                 <div className="overflow-x-auto">
+                    <table className="w-full text-left">
+                        <thead className="border-b-2 border-brand-brown-100">
+                            <tr>
+                                <th className="p-4 text-sm font-semibold text-gray-500 uppercase">Date</th>
+                                <th className="p-4 text-sm font-semibold text-gray-500 uppercase">Supplier</th>
+                                <th className="p-4 text-sm font-semibold text-gray-500 uppercase text-right">Amount (kg)</th>
+                                <th className="p-4 text-sm font-semibold text-gray-500 uppercase text-right">Cost</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {feedPurchaseHistory.length > 0 ? (
+                                feedPurchaseHistory.map((record, index) => (
+                                    <tr key={record.id} className={`border-b border-brand-brown-100 ${index % 2 === 0 ? 'bg-brand-brown-50/50' : 'bg-white'}`}>
+                                        <td className="p-4 font-medium text-gray-600 whitespace-nowrap">{new Date(record.date).toLocaleDateString()}</td>
+                                        <td className="p-4 font-medium text-gray-800">{record.supplier}</td>
+                                        <td className="p-4 font-semibold text-brand-green-800 text-right">{record.amount.toLocaleString()}</td>
+                                        <td className="p-4 font-semibold text-brand-brown-800 text-right">${record.cost.toLocaleString()}</td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan={4} className="text-center text-gray-500 py-8">No feed purchase records found.</td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                 </div>
              </Card>
         </div>
     );

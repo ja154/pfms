@@ -60,3 +60,17 @@ export interface CalendarTask {
   description?: string;
   completed: boolean;
 }
+
+export interface Supplier {
+  id: string;
+  name: string;
+  balance: number; // Positive: farmer owes supplier. Negative: supplier owes farmer.
+}
+
+export interface TabBookTransaction {
+  id: string;
+  supplierId: string;
+  date: string;
+  description: string;
+  amount: number; // Positive: increases farmer debt. Negative: decreases farmer debt (payment/credit).
+}

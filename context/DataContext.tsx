@@ -1,6 +1,6 @@
 
 import React, { createContext, useReducer, useContext, ReactNode } from 'react';
-import { PoultryCategory, FeedStock, FarmRecord, RecordType, FeedPurchaseRecord, PoultryCountChangeRecord, CalendarTask } from '../types';
+import { PoultryCategory, FeedStock, FarmRecord, RecordType, FeedPurchaseRecord, PoultryCountChangeRecord, CalendarTask, Supplier, TabBookTransaction } from '../types';
 
 interface AppState {
   farmName: string;
@@ -8,6 +8,8 @@ interface AppState {
   feed: FeedStock;
   records: FarmRecord[];
   tasks: CalendarTask[];
+  suppliers: Supplier[];
+  tabBookTransactions: TabBookTransaction[];
 }
 
 type Action = 
@@ -21,7 +23,13 @@ type Action =
   | { type: 'UPDATE_FARM_NAME', payload: string }
   | { type: 'ADD_TASK', payload: CalendarTask }
   | { type: 'UPDATE_TASK', payload: CalendarTask }
-  | { type: 'DELETE_TASK', payload: string }; // id
+  | { type: 'DELETE_TASK', payload: string } // id
+  | { type: 'ADD_SUPPLIER', payload: Supplier }
+  | { type: 'UPDATE_SUPPLIER', payload: Supplier }
+  | { type: 'DELETE_SUPPLIER', payload: string } // id
+  | { type: 'ADD_TAB_TRANSACTION', payload: TabBookTransaction }
+  | { type: 'UPDATE_TAB_TRANSACTION', payload: TabBookTransaction }
+  | { type: 'DELETE_TAB_TRANSACTION', payload: TabBookTransaction };
 
 const initialState: AppState = {
   farmName: 'Green Acre Poultry Farm',
@@ -82,6 +90,16 @@ const initialState: AppState = {
       title: 'Repair fence on west pasture',
       completed: true,
     },
+  ],
+  suppliers: [
+      { id: 's1', name: 'FarmPro Feeds', balance: 250 },
+      { id: 's2', name: 'Local Grains Co-op', balance: -30 },
+      { id: 's3', name: 'Vet Supplies Inc.', balance: 0 },
+  ],
+  tabBookTransactions: [
+      { id: 'tr1', supplierId: 's1', date: new Date(new Date().setDate(new Date().getDate() - 12)).toISOString().split('T')[0], description: '20 bags of grower feed', amount: 500 },
+      { id: 'tr2', supplierId: 's1', date: new Date(new Date().setDate(new Date().getDate() - 3)).toISOString().split('T')[0], description: 'Payment for invoice #112', amount: -250 },
+      { id: 'tr3', supplierId: 's2', date: new Date(new Date().setDate(new Date().getDate() - 8)).toISOString().split('T')[0], description: 'Overpayment on grain purchase', amount: -30 },
   ],
 };
 
@@ -179,6 +197,58 @@ const appReducer = (state: AppState, action: Action): AppState => {
       return { ...state, tasks: state.tasks.map(t => t.id === action.payload.id ? action.payload : t) };
     case 'DELETE_TASK':
       return { ...state, tasks: state.tasks.filter(t => t.id !== action.payload) };
+    
+    case 'ADD_SUPPLIER':
+      return { ...state, suppliers: [...state.suppliers, action.payload] };
+    case 'UPDATE_SUPPLIER':
+      return { ...state, suppliers: state.suppliers.map(s => s.id === action.payload.id ? { ...s, name: action.payload.name } : s) };
+    case 'DELETE_SUPPLIER': {
+      const supplierIdToDelete = action.payload;
+      return {
+        ...state,
+        suppliers: state.suppliers.filter(s => s.id !== supplierIdToDelete),
+        tabBookTransactions: state.tabBookTransactions.filter(t => t.supplierId !== supplierIdToDelete),
+      };
+    }
+    case 'ADD_TAB_TRANSACTION': {
+      const newTransaction = action.payload;
+      return {
+        ...state,
+        tabBookTransactions: [newTransaction, ...state.tabBookTransactions].sort((a,b) => new Date(b.date).getTime() - new Date(a.date).getTime()),
+        suppliers: state.suppliers.map(s =>
+          s.id === newTransaction.supplierId
+            ? { ...s, balance: s.balance + newTransaction.amount }
+            : s
+        ),
+      };
+    }
+    case 'UPDATE_TAB_TRANSACTION': {
+      const updatedTransaction = action.payload;
+      const originalTransaction = state.tabBookTransactions.find(t => t.id === updatedTransaction.id);
+      if (!originalTransaction) return state;
+      const netChange = updatedTransaction.amount - originalTransaction.amount;
+      return {
+        ...state,
+        tabBookTransactions: state.tabBookTransactions.map(t => t.id === updatedTransaction.id ? updatedTransaction : t),
+        suppliers: state.suppliers.map(s =>
+          s.id === updatedTransaction.supplierId
+            ? { ...s, balance: s.balance + netChange }
+            : s
+        ),
+      };
+    }
+    case 'DELETE_TAB_TRANSACTION': {
+      const transactionToDelete = action.payload;
+      return {
+        ...state,
+        tabBookTransactions: state.tabBookTransactions.filter(t => t.id !== transactionToDelete.id),
+        suppliers: state.suppliers.map(s =>
+          s.id === transactionToDelete.supplierId
+            ? { ...s, balance: s.balance - transactionToDelete.amount }
+            : s
+        ),
+      };
+    }
     default:
       return state;
   }
