@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo } from 'react';
 import { useData } from '../../context/DataContext';
 import Calendar from './Calendar';
@@ -45,7 +44,7 @@ const CalendarView: React.FC = () => {
         }
     }
 
-    const handleToggleComplete = (task: CalendarTask) => {
+    const handleToggleTaskCompletion = (task: CalendarTask) => {
         dispatch({ type: 'UPDATE_TASK', payload: { ...task, completed: !task.completed }});
     }
 
@@ -104,7 +103,7 @@ const CalendarView: React.FC = () => {
                                    <div key={event.id} className="p-3 rounded-lg border bg-white">
                                        {event.type === 'task' ? (
                                            <div className="flex items-start">
-                                                <input type="checkbox" checked={event.completed} onChange={() => handleToggleComplete(event.data as CalendarTask)} className="mt-1 h-4 w-4 rounded border-gray-300 text-brand-green-600 focus:ring-brand-green-500" />
+                                                <input type="checkbox" checked={event.completed} onChange={() => handleToggleTaskCompletion(event.data as CalendarTask)} className="mt-1 h-4 w-4 rounded border-gray-300 text-brand-green-600 focus:ring-brand-green-500" />
                                                 <div className="ml-3 flex-1">
                                                     <p className={`text-sm font-medium ${event.completed ? 'line-through text-gray-500' : 'text-gray-800'}`}>
                                                         {(event.data as CalendarTask).title}
