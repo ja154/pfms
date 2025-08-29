@@ -1,10 +1,11 @@
-
 import React, { useState, useMemo } from 'react';
 import { useData } from '../../context/DataContext';
 import Card from '../ui/Card';
 import { Supplier, TabBookTransaction } from '../../types';
 import AddEditSupplierModal from './AddEditSupplierModal';
 import AddEditTransactionModal from './AddEditTransactionModal';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
+
 
 const TabBookView: React.FC = () => {
     const { state, dispatch } = useData();
@@ -51,6 +52,10 @@ const TabBookView: React.FC = () => {
         return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
     }
 
+    const sortedSuppliers = useMemo(() => {
+        return [...state.suppliers].sort((a, b) => b.balance - a.balance);
+    }, [state.suppliers]);
+
     return (
         <div className="space-y-6">
             <div className="flex flex-wrap justify-between items-center gap-4">
@@ -65,6 +70,35 @@ const TabBookView: React.FC = () => {
                 </div>
             </div>
             
+             <Card>
+                <h3 className="text-lg font-semibold text-gray-700 mb-4">Supplier Balances Overview</h3>
+                 <ResponsiveContainer width="100%" height={300}>
+                    <BarChart
+                        data={sortedSuppliers}
+                        layout="vertical"
+                        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                    >
+                        <CartesianGrid strokeDasharray="3 3" horizontal={false} />
+                        <XAxis type="number" tickFormatter={(value) => `$${value}`} />
+                        <YAxis dataKey="name" type="category" width={120} interval={0} />
+                        <Tooltip
+                            formatter={(value) => formatCurrency(value as number)}
+                            cursor={{ fill: 'rgba(243, 244, 246, 0.5)' }}
+                            contentStyle={{
+                                background: 'white',
+                                border: '1px solid #dcfce7',
+                                borderRadius: '0.5rem',
+                            }}
+                        />
+                        <Bar dataKey="balance" name="Balance">
+                            {sortedSuppliers.map((entry, index) => (
+                                <Cell key={`cell-${index}`} fill={entry.balance > 0 ? '#ef4444' : entry.balance < 0 ? '#22c55e' : '#6b7280'} />
+                            ))}
+                        </Bar>
+                    </BarChart>
+                </ResponsiveContainer>
+            </Card>
+
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <Card className="lg:col-span-1 h-[600px] flex flex-col">
                     <h3 className="text-lg font-semibold text-gray-700 mb-4">Suppliers</h3>
