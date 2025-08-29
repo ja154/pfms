@@ -52,8 +52,12 @@ const TabBookView: React.FC = () => {
         return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
     }
 
-    const sortedSuppliers = useMemo(() => {
+    const sortedSuppliersByBalance = useMemo(() => {
         return [...state.suppliers].sort((a, b) => b.balance - a.balance);
+    }, [state.suppliers]);
+
+    const sortedSuppliersByName = useMemo(() => {
+        return [...state.suppliers].sort((a, b) => a.name.localeCompare(b.name));
     }, [state.suppliers]);
 
     return (
@@ -74,7 +78,7 @@ const TabBookView: React.FC = () => {
                 <h3 className="text-lg font-semibold text-gray-700 mb-4">Supplier Balances Overview</h3>
                  <ResponsiveContainer width="100%" height={300}>
                     <BarChart
-                        data={sortedSuppliers}
+                        data={sortedSuppliersByBalance}
                         layout="vertical"
                         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
                     >
@@ -91,7 +95,7 @@ const TabBookView: React.FC = () => {
                             }}
                         />
                         <Bar dataKey="balance" name="Balance">
-                            {sortedSuppliers.map((entry, index) => (
+                            {sortedSuppliersByBalance.map((entry, index) => (
                                 <Cell key={`cell-${index}`} fill={entry.balance > 0 ? '#ef4444' : entry.balance < 0 ? '#22c55e' : '#6b7280'} />
                             ))}
                         </Bar>
@@ -103,7 +107,7 @@ const TabBookView: React.FC = () => {
                 <Card className="lg:col-span-1 h-[600px] flex flex-col">
                     <h3 className="text-lg font-semibold text-gray-700 mb-4">Suppliers</h3>
                     <div className="flex-1 overflow-y-auto pr-2 space-y-2">
-                        {state.suppliers.map(supplier => (
+                        {sortedSuppliersByName.map(supplier => (
                             <div key={supplier.id} onClick={() => setSelectedSupplier(supplier)} className={`p-3 rounded-lg cursor-pointer border ${selectedSupplier?.id === supplier.id ? 'bg-brand-green-100 border-brand-green-400' : 'bg-white hover:bg-gray-50'}`}>
                                 <div className="flex justify-between items-center">
                                     <span className="font-semibold text-gray-800">{supplier.name}</span>
