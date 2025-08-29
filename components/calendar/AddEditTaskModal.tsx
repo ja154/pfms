@@ -18,6 +18,7 @@ const AddEditTaskModal: React.FC<ModalProps> = ({ isOpen, onClose, taskToEdit, s
   const [title, setTitle] = useState('');
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [description, setDescription] = useState('');
+  const [reminder, setReminder] = useState('none');
   const inputStyles = "w-full p-2 bg-white text-gray-900 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-brand-green-500 transition-shadow";
 
 
@@ -27,10 +28,12 @@ const AddEditTaskModal: React.FC<ModalProps> = ({ isOpen, onClose, taskToEdit, s
           setTitle(taskToEdit.title);
           setDate(taskToEdit.date);
           setDescription(taskToEdit.description || '');
+          setReminder(taskToEdit.reminder || 'none');
         } else {
           setTitle('');
           setDate(selectedDate || new Date().toISOString().split('T')[0]);
           setDescription('');
+          setReminder('none');
         }
     }
   }, [taskToEdit, isEditMode, isOpen, selectedDate]);
@@ -43,7 +46,7 @@ const AddEditTaskModal: React.FC<ModalProps> = ({ isOpen, onClose, taskToEdit, s
     if (isEditMode) {
       dispatch({ 
           type: 'UPDATE_TASK', 
-          payload: { ...taskToEdit, title, date, description } 
+          payload: { ...taskToEdit, title, date, description, reminder } 
       });
     } else {
       const newTask: CalendarTask = {
@@ -51,7 +54,8 @@ const AddEditTaskModal: React.FC<ModalProps> = ({ isOpen, onClose, taskToEdit, s
         title,
         date,
         description,
-        completed: false
+        completed: false,
+        reminder
       };
       dispatch({ type: 'ADD_TASK', payload: newTask });
     }
@@ -73,6 +77,16 @@ const AddEditTaskModal: React.FC<ModalProps> = ({ isOpen, onClose, taskToEdit, s
             <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Description (Optional)</label>
                 <textarea value={description} onChange={e => setDescription(e.target.value)} rows={3} className={inputStyles} />
+            </div>
+            <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Reminder</label>
+                <select value={reminder} onChange={e => setReminder(e.target.value)} className={inputStyles}>
+                    <option value="none">No Reminder</option>
+                    <option value="30m">30 minutes before</option>
+                    <option value="1h">1 hour before</option>
+                    <option value="1d">1 day before</option>
+                </select>
+                <p className="text-xs text-gray-500 mt-1">Reminders are checked against the start of the task day (midnight).</p>
             </div>
         </div>
         <div className="bg-gray-50 px-6 py-4 flex justify-end space-x-3 rounded-b-lg border-t">

@@ -59,6 +59,7 @@ export interface CalendarTask {
   title: string;
   description?: string;
   completed: boolean;
+  reminder?: string; // e.g., 'none', '30m', '1h', '1d'
 }
 
 export interface Supplier {
