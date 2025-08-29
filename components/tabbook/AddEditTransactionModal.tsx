@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useData } from '../../context/DataContext';
 import { TabBookTransaction } from '../../types';
@@ -40,7 +39,7 @@ const AddEditTransactionModal: React.FC<ModalProps> = ({ isOpen, onClose, transa
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!description || !supplierId) return;
+    if (!description || !supplierId || !date) return;
 
     if (isEditMode) {
       dispatch({ 
