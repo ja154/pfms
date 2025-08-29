@@ -29,7 +29,7 @@ const PoultryManagement: React.FC = () => {
     return (
         <div className="space-y-6">
             <div className="flex justify-between items-center">
-                <h2 className="text-2xl font-bold text-brand-green-900">Poultry Inventory</h2>
+                <h2 className="text-2xl font-bold text-brand-green-900">Insect Inventory</h2>
                 <button onClick={openAddModal} className="px-5 py-2.5 bg-brand-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-brand-green-700 hover:shadow-glow-green transition-all duration-300">
                     Add New Category
                 </button>

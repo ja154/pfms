@@ -39,7 +39,7 @@ const RecordsView: React.FC = () => {
             return `Purchased ${record.amount}kg from ${record.supplier} for $${record.cost}.`;
         }
         if (record.type === RecordType.Vaccination) {
-            return `${record.birdsVaccinated} birds vaccinated for ${record.vaccineType}. Next due: ${new Date(record.nextDueDate).toLocaleDateString()}`;
+            return `${record.birdsVaccinated} units serviced for ${record.vaccineType}. Next due: ${new Date(record.nextDueDate).toLocaleDateString()}`;
         }
         if (record.type === RecordType.PoultryCountChange) {
           const changeText = record.changeType === 'addition' ? 'Added' : 'Reduced count of';

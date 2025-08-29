@@ -125,7 +125,7 @@ const AddRecordModal: React.FC<ModalProps> = ({ isOpen, onClose, recordToEdit })
               <select value={recordType} onChange={e => setRecordType(e.target.value as RecordType)} disabled={isEditMode} className={`${inputStyles} disabled:bg-gray-100`}>
                 <option value={RecordType.FeedPurchase}>Feed Purchase</option>
                 <option value={RecordType.Vaccination}>Vaccination</option>
-                <option value={RecordType.PoultryCountChange}>Poultry Count Change</option>
+                <option value={RecordType.PoultryCountChange}>Insect Count Change</option>
               </select>
             </div>
              <div className="mb-4">
@@ -174,7 +174,7 @@ const AddRecordModal: React.FC<ModalProps> = ({ isOpen, onClose, recordToEdit })
             {recordType === RecordType.PoultryCountChange && (
                  <div className="space-y-4">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Poultry Category</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Insect Category</label>
                         <select value={poultryCategoryId} onChange={e => setPoultryCategoryId(e.target.value)} required className={inputStyles}>
                            {state.poultry.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
                         </select>
@@ -195,7 +195,7 @@ const AddRecordModal: React.FC<ModalProps> = ({ isOpen, onClose, recordToEdit })
                         </div>
                     </div>
                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Number of Birds</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Number of Insects</label>
                         <input type="number" value={changeAmount} onChange={e => setChangeAmount(Number(e.target.value))} required min="1" className={inputStyles} />
                     </div>
                  </div>

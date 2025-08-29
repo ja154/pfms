@@ -3,7 +3,7 @@ import React, { ReactNode } from 'react';
 import Card from '../ui/Card';
 
 export const TotalPoultryIcon: React.FC = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18.43 5.43a2.43 2.43 0 1 0-2.86 2.86"></path><path d="M13.78 12.57 6.2 20.15s-2.83-2.83-2.83-5.66S6.2 8.83 6.2 8.83Z"></path><path d="m14 14 3 3"></path><path d="M12.57 13.78 20.15 6.2s2.83 2.83 2.83 5.66-2.83 5.66-2.83 5.66Z"></path><path d="m10 10-3 3"></path></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20a4 4 0 0 0 4-4V8a4 4 0 0 0-8 0v8a4 4 0 0 0 4 4Z"></path><path d="m18 8-2.5 2.5"></path><path d="m6 8 2.5 2.5"></path><path d="M14 12h-4"></path><path d="M16 4.5 14 2"></path><path d="m8 4.5 2-2.5"></path><path d="m18 16 2.5 2.5"></path><path d="m6 16-2.5 2.5"></path></svg>
 );
 export const FeedStockIcon: React.FC = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.29 14.29c-1.8 1.8-4.2 2.71-6.51 2.71-5.08 0-9.22-4.14-9.22-9.22 0-2.31.91-4.71 2.71-6.51Z"></path><path d="M14.29 14.29 22 22"></path><path d="M11.36 11.36c-1.8-1.8-2.71-4.2-2.71-6.51 0-2.31.91-4.71 2.71-6.51 1.8-1.8 4.2-2.71 6.51-2.71s4.71.91 6.51 2.71C23.09 4.14 24 6.54 24 8.85c0 2.31-.91 4.71-2.71 6.51l-8.64-8.64Z"></path></svg>

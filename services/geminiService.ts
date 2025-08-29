@@ -21,14 +21,14 @@ export const generateFarmIdeas = async (): Promise<string[]> => {
   try {
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash",
-      contents: "Generate 5 creative, fun, and actionable tips or ideas for a small to medium-sized poultry farm. Focus on topics like sustainability, animal welfare, efficiency, and unique products. The ideas should be concise, inspiring, and easy to understand for a farm owner.",
+      contents: "Generate 5 creative, fun, and actionable tips or ideas for a small to medium-sized frass farm (insect farming). Focus on topics like sustainability, animal welfare, efficiency, and unique products. The ideas should be concise, inspiring, and easy to understand for a farm owner.",
       config: {
         responseMimeType: "application/json",
         responseSchema: {
           type: Type.ARRAY,
           items: {
             type: Type.STRING,
-            description: "A single, actionable tip or idea for a poultry farm."
+            description: "A single, actionable tip or idea for a frass/insect farm."
           }
         },
       },

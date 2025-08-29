@@ -11,7 +11,7 @@ interface PoultryChartProps {
 const PoultryChart: React.FC<PoultryChartProps> = ({ data }) => {
   return (
     <Card className="h-96">
-      <h3 className="text-lg font-semibold text-brand-green-900 mb-4">Poultry Distribution</h3>
+      <h3 className="text-lg font-semibold text-brand-green-900 mb-4">Insect Distribution</h3>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
           data={data}
@@ -34,7 +34,7 @@ const PoultryChart: React.FC<PoultryChartProps> = ({ data }) => {
             }}
           />
           <Legend wrapperStyle={{paddingTop: '20px'}} />
-          <Bar dataKey="count" fill="#16a34a" name="Number of Birds" radius={[4, 4, 0, 0]} />
+          <Bar dataKey="count" fill="#16a34a" name="Insect Count" radius={[4, 4, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
     </Card>

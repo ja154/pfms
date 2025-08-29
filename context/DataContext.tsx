@@ -1,5 +1,4 @@
-
-import React, { createContext, useReducer, useContext, ReactNode } from 'react';
+import React, { createContext, useReducer, useContext, ReactNode, useEffect } from 'react';
 import { PoultryCategory, FeedStock, FarmRecord, RecordType, FeedPurchaseRecord, PoultryCountChangeRecord, CalendarTask, Supplier, TabBookTransaction } from '../types';
 
 interface AppState {
@@ -32,13 +31,13 @@ type Action =
   | { type: 'DELETE_TAB_TRANSACTION', payload: TabBookTransaction }
   | { type: 'ADD_BULK_TAB_TRANSACTIONS', payload: TabBookTransaction[] };
 
-const initialState: AppState = {
-  farmName: 'Green Acre Poultry Farm',
+const defaultInitialState: AppState = {
+  farmName: 'Green Acre Frass Farm',
   poultry: [
-    { id: '1', name: 'Broilers', count: 1250 },
-    { id: '2', name: 'Layers', count: 800 },
-    { id: '3', name: 'Chicks', count: 450 },
-    { id: '4', name: 'Turkeys', count: 150 },
+    { id: '1', name: 'Larva Beds', count: 1250 },
+    { id: '2', name: 'Breeding Colonies', count: 800 },
+    { id: '3', name: 'Hatchling Trays', count: 450 },
+    { id: '4', name: 'Harvesting Bins', count: 150 },
   ],
   feed: {
     total: 2500, // kg
@@ -49,7 +48,7 @@ const initialState: AppState = {
       id: 'v1',
       type: RecordType.Vaccination,
       date: new Date(new Date().setDate(new Date().getDate() - 10)).toISOString().split('T')[0],
-      vaccineType: 'Newcastle B1',
+      vaccineType: 'Substrate Additive',
       birdsVaccinated: 450,
       nextDueDate: new Date(new Date().setDate(new Date().getDate() + 20)).toISOString().split('T')[0],
     },
@@ -65,7 +64,7 @@ const initialState: AppState = {
       id: 'v2',
       type: RecordType.Vaccination,
       date: new Date(new Date().setDate(new Date().getDate() - 30)).toISOString().split('T')[0],
-      vaccineType: 'Infectious Bronchitis',
+      vaccineType: 'Nutrient Boost',
       birdsVaccinated: 1250,
       nextDueDate: new Date(new Date().setDate(new Date().getDate() - 2)).toISOString().split('T')[0],
     },
@@ -102,6 +101,22 @@ const initialState: AppState = {
       { id: 'tr2', supplierId: 's1', date: new Date(new Date().setDate(new Date().getDate() - 3)).toISOString().split('T')[0], description: 'Payment for invoice #112', amount: -250 },
       { id: 'tr3', supplierId: 's2', date: new Date(new Date().setDate(new Date().getDate() - 8)).toISOString().split('T')[0], description: 'Overpayment on grain purchase', amount: -30 },
   ],
+};
+
+const LOCAL_STORAGE_KEY = 'frassFarmManagementData';
+
+// Function to load state from localStorage
+const loadState = (): AppState => {
+    try {
+        const serializedState = localStorage.getItem(LOCAL_STORAGE_KEY);
+        if (serializedState === null) {
+            return defaultInitialState;
+        }
+        return JSON.parse(serializedState);
+    } catch (err) {
+        console.error("Error loading state from localStorage:", err);
+        return defaultInitialState;
+    }
 };
 
 const appReducer = (state: AppState, action: Action): AppState => {
@@ -297,7 +312,17 @@ const appReducer = (state: AppState, action: Action): AppState => {
 const DataContext = createContext<{ state: AppState; dispatch: React.Dispatch<Action> } | undefined>(undefined);
 
 export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [state, dispatch] = useReducer(appReducer, initialState);
+  const [state, dispatch] = useReducer(appReducer, loadState());
+
+  // Effect to save state to localStorage whenever it changes
+  useEffect(() => {
+    try {
+        const serializedState = JSON.stringify(state);
+        localStorage.setItem(LOCAL_STORAGE_KEY, serializedState);
+    } catch (err) {
+        console.error("Error saving state to localStorage:", err);
+    }
+  }, [state]);
 
   return (
     <DataContext.Provider value={{ state, dispatch }}>

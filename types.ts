@@ -13,7 +13,7 @@ export interface FeedStock {
 export enum RecordType {
   FeedPurchase = 'Feed Purchase',
   Vaccination = 'Vaccination',
-  PoultryCountChange = 'Poultry Count Change',
+  PoultryCountChange = 'Insect Count Change',
 }
 
 export interface FeedPurchaseRecord {
