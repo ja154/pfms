@@ -39,7 +39,11 @@ const AddEditTransactionModal: React.FC<ModalProps> = ({ isOpen, onClose, transa
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!description || !supplierId || !date) return;
+    // This check reinforces the HTML `required` attribute for greater reliability.
+    if (!description || !supplierId || !date) {
+        console.error("Attempted to submit transaction with missing required fields.");
+        return;
+    }
 
     if (isEditMode) {
       dispatch({ 
