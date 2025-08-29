@@ -226,15 +226,34 @@ const appReducer = (state: AppState, action: Action): AppState => {
       const updatedTransaction = action.payload;
       const originalTransaction = state.tabBookTransactions.find(t => t.id === updatedTransaction.id);
       if (!originalTransaction) return state;
-      const netChange = updatedTransaction.amount - originalTransaction.amount;
+
+      const newSuppliers = state.suppliers.map(s => {
+        // Case 1: This is the original supplier, and the supplier has been changed.
+        // We need to revert the original amount from this supplier.
+        if (s.id === originalTransaction.supplierId && originalTransaction.supplierId !== updatedTransaction.supplierId) {
+            return { ...s, balance: s.balance - originalTransaction.amount };
+        }
+        
+        // Case 2: This is the transaction's supplier (new or same).
+        if (s.id === updatedTransaction.supplierId) {
+            // Sub-case 2a: Supplier is the same as before. Apply the net change.
+            if (originalTransaction.supplierId === updatedTransaction.supplierId) {
+                const netChange = updatedTransaction.amount - originalTransaction.amount;
+                return { ...s, balance: s.balance + netChange };
+            } else {
+                // Sub-case 2b: Supplier is new. Apply the full new amount.
+                return { ...s, balance: s.balance + updatedTransaction.amount };
+            }
+        }
+
+        // Case 3: This supplier is not involved in the change.
+        return s;
+      });
+
       return {
         ...state,
         tabBookTransactions: state.tabBookTransactions.map(t => t.id === updatedTransaction.id ? updatedTransaction : t),
-        suppliers: state.suppliers.map(s =>
-          s.id === updatedTransaction.supplierId
-            ? { ...s, balance: s.balance + netChange }
-            : s
-        ),
+        suppliers: newSuppliers,
       };
     }
     case 'DELETE_TAB_TRANSACTION': {
