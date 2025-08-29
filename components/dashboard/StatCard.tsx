@@ -17,21 +17,29 @@ interface StatCardProps {
   value: string | number;
   description: string;
   icon: ReactNode;
+  color: 'green' | 'blue' | 'amber';
 }
 
-const StatCard: React.FC<StatCardProps> = ({ title, value, description, icon }) => {
+const colorClasses = {
+    green: { bg: 'bg-green-100', text: 'text-green-800' },
+    blue: { bg: 'bg-blue-100', text: 'text-blue-800' },
+    amber: { bg: 'bg-amber-100', text: 'text-amber-800' },
+};
+
+const StatCard: React.FC<StatCardProps> = ({ title, value, description, icon, color }) => {
+  const classes = colorClasses[color];
   return (
     <Card className="p-0">
       <div className="flex items-center">
-        <div className="p-4 bg-gradient-to-br from-brand-green-100 to-brand-green-200 rounded-l-xl">
-            <div className="p-2 bg-white/50 rounded-lg text-brand-green-700">
+        <div className={`p-5 rounded-l-lg ${classes.bg}`}>
+            <div className={`p-2 bg-white rounded-md shadow-sm ${classes.text}`}>
                 {icon}
             </div>
         </div>
         <div className="p-4">
-            <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider">{title}</h3>
-            <p className="mt-1 text-3xl font-bold text-brand-green-800">{value}</p>
-            <p className="mt-1 text-sm text-gray-500">{description}</p>
+            <h3 className="text-sm font-medium text-slate-500 uppercase tracking-wider">{title}</h3>
+            <p className="mt-1 text-3xl font-bold text-slate-900">{value}</p>
+            <p className="mt-1 text-sm text-slate-500">{description}</p>
         </div>
       </div>
     </Card>

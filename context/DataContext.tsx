@@ -12,6 +12,7 @@ interface AppState {
 }
 
 type Action = 
+  | { type: 'REPLACE_STATE'; payload: AppState }
   | { type: 'ADD_RECORD'; payload: FarmRecord }
   | { type: 'EDIT_RECORD', payload: FarmRecord }
   | { type: 'DELETE_RECORD', payload: string } // id
@@ -121,6 +122,8 @@ const loadState = (): AppState => {
 
 const appReducer = (state: AppState, action: Action): AppState => {
   switch (action.type) {
+    case 'REPLACE_STATE':
+        return action.payload;
     case 'UPDATE_FARM_NAME':
       return { ...state, farmName: action.payload };
     case 'ADD_RECORD': {

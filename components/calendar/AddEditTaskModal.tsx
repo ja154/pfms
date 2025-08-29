@@ -19,7 +19,7 @@ const AddEditTaskModal: React.FC<ModalProps> = ({ isOpen, onClose, taskToEdit, s
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [description, setDescription] = useState('');
   const [reminder, setReminder] = useState('none');
-  const inputStyles = "w-full p-2 bg-white text-gray-900 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-brand-green-500 transition-shadow";
+  const inputStyles = "w-full p-2 bg-white text-slate-800 border border-slate-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-500 transition";
 
 
   useEffect(() => {
@@ -67,31 +67,31 @@ const AddEditTaskModal: React.FC<ModalProps> = ({ isOpen, onClose, taskToEdit, s
       <form onSubmit={handleSubmit}>
         <div className="p-6 space-y-4">
             <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Task Title</label>
+                <label className="block text-sm font-medium text-slate-600 mb-1">Task Title</label>
                 <input type="text" value={title} onChange={e => setTitle(e.target.value)} required className={inputStyles} />
             </div>
             <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Date</label>
+                <label className="block text-sm font-medium text-slate-600 mb-1">Date</label>
                 <input type="date" value={date} onChange={e => setDate(e.target.value)} required className={inputStyles} />
             </div>
             <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Description (Optional)</label>
+                <label className="block text-sm font-medium text-slate-600 mb-1">Description (Optional)</label>
                 <textarea value={description} onChange={e => setDescription(e.target.value)} rows={3} className={inputStyles} />
             </div>
             <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Reminder</label>
+                <label className="block text-sm font-medium text-slate-600 mb-1">Reminder</label>
                 <select value={reminder} onChange={e => setReminder(e.target.value)} className={inputStyles}>
                     <option value="none">No Reminder</option>
                     <option value="30m">30 minutes before</option>
                     <option value="1h">1 hour before</option>
                     <option value="1d">1 day before</option>
                 </select>
-                <p className="text-xs text-gray-500 mt-1">Reminders are checked against the start of the task day (midnight).</p>
+                <p className="text-xs text-slate-500 mt-1">Reminders are checked against the start of the task day (midnight).</p>
             </div>
         </div>
-        <div className="bg-gray-50 px-6 py-4 flex justify-end space-x-3 rounded-b-lg border-t">
-          <button type="button" onClick={onClose} className="px-4 py-2 bg-gray-200 text-gray-800 font-semibold rounded-lg hover:bg-gray-300 transition-colors">Cancel</button>
-          <button type="submit" className="px-5 py-2.5 bg-brand-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-brand-green-700 hover:shadow-glow-green transition-all duration-300">Save Task</button>
+        <div className="bg-slate-50 px-6 py-4 flex justify-end space-x-3 border-t border-slate-200 rounded-b-lg">
+          <button type="button" onClick={onClose} className="px-4 py-2 bg-white text-slate-700 border border-slate-300 rounded-lg hover:bg-slate-50 text-sm font-semibold">Cancel</button>
+          <button type="submit" className="px-4 py-2 bg-green-600 text-white border-transparent rounded-lg hover:bg-green-700 text-sm font-semibold">Save Task</button>
         </div>
       </form>
     </Modal>

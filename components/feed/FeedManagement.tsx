@@ -10,7 +10,7 @@ const FeedManagement: React.FC = () => {
 
     const [isEditing, setIsEditing] = useState(false);
     const [editableFeed, setEditableFeed] = useState({ ...feed });
-    const inputStyles = "w-full p-2 bg-white text-gray-900 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-brand-green-500 transition-shadow";
+    const inputStyles = "w-full p-2 bg-white text-slate-800 border border-slate-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-500 transition";
 
 
     useEffect(() => {
@@ -38,23 +38,23 @@ const FeedManagement: React.FC = () => {
     return (
         <div className="space-y-6">
             <div className="flex justify-between items-center">
-                 <h2 className="text-2xl font-bold text-brand-green-900">Feed Management</h2>
+                 <h2 className="text-2xl font-bold text-slate-900">Feed Management</h2>
                  {isEditing ? (
                      <div className="space-x-2">
-                        <button onClick={() => setIsEditing(false)} className="px-4 py-2 bg-gray-200 text-gray-800 font-semibold rounded-lg hover:bg-gray-300 transition-colors">Cancel</button>
-                        <button onClick={handleSave} className="px-5 py-2.5 bg-brand-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-brand-green-700 hover:shadow-glow-green transition-all duration-300">Save Changes</button>
+                        <button onClick={() => setIsEditing(false)} className="px-4 py-2 bg-white text-slate-700 border border-slate-300 rounded-lg hover:bg-slate-50 text-sm font-semibold">Cancel</button>
+                        <button onClick={handleSave} className="px-4 py-2 bg-green-600 text-white border-transparent rounded-lg hover:bg-green-700 text-sm font-semibold">Save Changes</button>
                      </div>
                  ) : (
-                    <button onClick={() => setIsEditing(true)} className="px-5 py-2.5 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 hover:shadow-glow-blue transition-all duration-300">Edit Data</button>
+                    <button onClick={() => setIsEditing(true)} className="px-4 py-2 bg-white text-slate-700 border border-slate-300 rounded-lg hover:bg-slate-50 text-sm font-semibold">Edit Data</button>
                  )}
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <Card>
-                    <h3 className="text-lg font-semibold text-gray-700 mb-4">Current Stock</h3>
+                    <h3 className="text-lg font-semibold text-slate-900 mb-4">Current Stock</h3>
                     {isEditing ? (
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Total Stock (kg)</label>
+                            <label className="block text-sm font-medium text-slate-600 mb-1">Total Stock (kg)</label>
                             <input 
                                 type="number"
                                 value={editableFeed.total}
@@ -63,22 +63,22 @@ const FeedManagement: React.FC = () => {
                             />
                         </div>
                     ) : (
-                        <p className="text-4xl font-bold text-brand-green-700">{feed.total.toLocaleString()} kg</p>
+                        <p className="text-4xl font-bold text-slate-900">{feed.total.toLocaleString()} kg</p>
                     )}
-                     <div className="w-full bg-gray-200 rounded-full h-4 mt-4 overflow-hidden">
+                     <div className="w-full bg-slate-200 h-4 mt-4 rounded-full overflow-hidden">
                         <div 
-                            className="bg-gradient-to-r from-brand-green-500 to-brand-green-600 h-4 rounded-full transition-all duration-500"
+                            className="bg-green-600 h-full"
                             style={{ width: `${percentage}%` }}
                         ></div>
                     </div>
-                    <p className="text-sm text-gray-500 mt-2 text-right">{percentage.toFixed(1)}% of 5,000kg capacity</p>
+                    <p className="text-sm text-slate-500 mt-2 text-right">{percentage.toFixed(1)}% of 5,000kg capacity</p>
                 </Card>
                 <Card>
-                    <h3 className="text-lg font-semibold text-gray-700">Consumption Details</h3>
+                    <h3 className="text-lg font-semibold text-slate-900">Consumption Details</h3>
                     <div className="mt-4 space-y-3">
                         {isEditing ? (
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Daily Consumption (kg/day)</label>
+                                <label className="block text-sm font-medium text-slate-600 mb-1">Daily Consumption (kg/day)</label>
                                 <input 
                                     type="number"
                                     value={editableFeed.dailyConsumption}
@@ -88,42 +88,43 @@ const FeedManagement: React.FC = () => {
                             </div>
                         ) : (
                              <div className="flex justify-between items-baseline">
-                                <span className="text-gray-600">Daily Consumption:</span>
-                                <span className="font-bold text-xl text-brand-brown-800">{feed.dailyConsumption} kg/day</span>
+                                <span className="text-slate-600">Daily Consumption:</span>
+                                <span className="font-bold text-xl text-slate-800">{feed.dailyConsumption} kg/day</span>
                             </div>
                         )}
                         <div className="flex justify-between items-baseline">
-                            <span className="text-gray-600">Estimated Days Left:</span>
-                            <span className="font-bold text-xl text-brand-brown-800">{feedDaysLeft} days</span>
+                            <span className="text-slate-600">Estimated Days Left:</span>
+                            <span className="font-bold text-xl text-slate-800">{feedDaysLeft} days</span>
                         </div>
                     </div>
                 </Card>
             </div>
              <Card>
-                 <h3 className="text-lg font-semibold text-gray-700 mb-4">Feed Purchase History</h3>
+                 <h3 className="text-lg font-semibold text-slate-900 mb-4">Feed Purchase History</h3>
                  <div className="overflow-x-auto">
                     <table className="w-full text-left">
-                        <thead className="border-b-2 border-gray-100 bg-gray-50">
+                        <thead className="border-b-2 border-slate-200">
                             <tr>
-                                <th className="p-4 text-sm font-semibold text-gray-500 uppercase tracking-wider">Date</th>
-                                <th className="p-4 text-sm font-semibold text-gray-500 uppercase tracking-wider">Supplier</th>
-                                <th className="p-4 text-sm font-semibold text-gray-500 uppercase tracking-wider text-right">Amount (kg)</th>
-                                <th className="p-4 text-sm font-semibold text-gray-500 uppercase tracking-wider text-right">Cost</th>
+                                <th className="p-4 text-sm font-semibold text-slate-600 uppercase tracking-wider">Date</th>
+                                <th className="p-4 text-sm font-semibold text-slate-600 uppercase tracking-wider">Supplier</th>
+                                <th className="p-4 text-sm font-semibold text-slate-600 uppercase tracking-wider text-right">Amount (kg)</th>
+
+                                <th className="p-4 text-sm font-semibold text-slate-600 uppercase tracking-wider text-right">Cost</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody className="divide-y divide-slate-100">
                             {feedPurchaseHistory.length > 0 ? (
                                 feedPurchaseHistory.map((record) => (
-                                    <tr key={record.id} className="border-b border-gray-100 hover:bg-brand-green-50/50 transition-colors">
-                                        <td className="p-4 font-medium text-gray-600 whitespace-nowrap">{new Date(record.date).toLocaleDateString()}</td>
-                                        <td className="p-4 font-medium text-gray-800">{record.supplier}</td>
-                                        <td className="p-4 font-semibold text-brand-green-800 text-right">{record.amount.toLocaleString()}</td>
-                                        <td className="p-4 font-semibold text-brand-brown-800 text-right">${record.cost.toLocaleString()}</td>
+                                    <tr key={record.id}>
+                                        <td className="p-4 font-medium text-slate-800 whitespace-nowrap">{new Date(record.date).toLocaleDateString()}</td>
+                                        <td className="p-4 font-medium text-slate-800">{record.supplier}</td>
+                                        <td className="p-4 font-semibold text-slate-800 text-right">{record.amount.toLocaleString()}</td>
+                                        <td className="p-4 font-semibold text-slate-800 text-right">${record.cost.toLocaleString()}</td>
                                     </tr>
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan={4} className="text-center text-gray-500 py-8">No feed purchase records found.</td>
+                                    <td colSpan={4} className="text-center text-slate-500 py-8">No feed purchase records found.</td>
                                 </tr>
                             )}
                         </tbody>

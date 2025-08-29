@@ -144,38 +144,35 @@ const ImportTransactionsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         <Modal isOpen={isOpen} onClose={handleClose} title="Import Transactions from CSV">
             <div className="p-6 space-y-6">
                 
-                {/* Step 1: Template */}
                 <div className="space-y-2">
-                    <h3 className="text-md font-semibold text-gray-800">1. Download and Prepare Your File</h3>
-                    <p className="text-sm text-gray-600">Download our CSV template to ensure your data is in the correct format. The <code className="bg-gray-200 p-1 rounded text-xs">supplier_name</code> must exactly match an existing supplier.</p>
-                    <button onClick={handleDownloadTemplate} className="px-4 py-2 bg-blue-100 text-blue-700 font-semibold rounded-lg hover:bg-blue-200 transition-colors text-sm">Download CSV Template</button>
+                    <h3 className="text-md font-semibold text-slate-800">1. Download and Prepare Your File</h3>
+                    <p className="text-sm text-slate-600">Download our CSV template to ensure your data is in the correct format. The <code className="bg-slate-100 p-1 text-xs rounded">supplier_name</code> must exactly match an existing supplier.</p>
+                    <button onClick={handleDownloadTemplate} className="px-4 py-2 bg-white text-slate-700 border border-slate-300 rounded-lg hover:bg-slate-50 text-sm font-semibold">Download CSV Template</button>
                 </div>
 
-                {/* Step 2: Upload */}
                 <div className="space-y-2">
-                    <h3 className="text-md font-semibold text-gray-800">2. Upload Your CSV File</h3>
+                    <h3 className="text-md font-semibold text-slate-800">2. Upload Your CSV File</h3>
                      <input 
                         type="file" 
                         accept=".csv" 
                         onChange={handleFileChange}
-                        className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-brand-green-50 file:text-brand-green-700 hover:file:bg-brand-green-100"
+                        className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100"
                     />
-                     {selectedFile && <p className="text-sm text-gray-500">Selected: {selectedFile.name}</p>}
+                     {selectedFile && <p className="text-sm text-slate-500 mt-2">Selected: {selectedFile.name}</p>}
                 </div>
 
-                {/* Feedback Section */}
                 {status !== 'idle' && (
                     <div className="p-4 rounded-lg">
-                        {status === 'processing' && <p className="text-gray-600">Processing and validating file...</p>}
+                        {status === 'processing' && <p className="text-slate-800">Processing and validating file...</p>}
                         {status === 'success' && (
-                            <div className="text-center p-4 bg-green-50 border border-green-200 rounded-lg">
-                                <p className="font-semibold text-green-700">{successMessage}</p>
+                            <div className="text-center p-4 bg-green-100 border border-green-200 rounded-lg">
+                                <p className="font-semibold text-green-800">{successMessage}</p>
                             </div>
                         )}
                         {status === 'error' && (
-                             <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-                                <p className="font-bold text-red-700 mb-2">Validation Failed</p>
-                                <ul className="list-disc list-inside space-y-1 text-sm text-red-600 max-h-40 overflow-y-auto">
+                             <div className="p-4 bg-red-100 border border-red-200 rounded-lg">
+                                <p className="font-bold text-red-800 mb-2">Validation Failed</p>
+                                <ul className="list-disc list-inside space-y-1 text-sm text-red-800 max-h-40 overflow-y-auto">
                                     {errors.map((error, index) => <li key={index}>{error}</li>)}
                                 </ul>
                              </div>
@@ -184,15 +181,15 @@ const ImportTransactionsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                 )}
             </div>
 
-            <div className="bg-gray-50 px-6 py-4 flex justify-end space-x-3 rounded-b-lg border-t">
-              <button type="button" onClick={handleClose} className="px-4 py-2 bg-gray-200 text-gray-800 font-semibold rounded-lg hover:bg-gray-300 transition-colors">
+            <div className="bg-slate-50 px-6 py-4 flex justify-end space-x-3 border-t border-slate-200 rounded-b-lg">
+              <button type="button" onClick={handleClose} className="px-4 py-2 bg-white text-slate-700 border border-slate-300 rounded-lg hover:bg-slate-50 text-sm font-semibold">
                 {status === 'success' ? 'Done' : 'Cancel'}
               </button>
               <button 
                 type="button" 
                 onClick={handleImport} 
                 disabled={!selectedFile || status === 'processing'}
-                className="px-5 py-2.5 bg-brand-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-brand-green-700 hover:shadow-glow-green transition-all duration-300 disabled:bg-gray-400 disabled:shadow-none disabled:cursor-not-allowed">
+                className="px-4 py-2 bg-green-600 text-white border-transparent rounded-lg hover:bg-green-700 text-sm font-semibold disabled:bg-green-400 disabled:cursor-not-allowed">
                 {status === 'processing' ? 'Importing...' : 'Import'}
               </button>
             </div>

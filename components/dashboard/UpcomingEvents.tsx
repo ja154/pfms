@@ -54,44 +54,37 @@ const UpcomingEvents: React.FC = () => {
         .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
         
     const overdueEvents = allEvents.filter(e => e.isOverdue);
-    const upcomingEvents = allEvents.filter(e => !e.isOverdue).slice(0, 4);
+    const upcomingEvents = allEvents.filter(e => !e.isOverdue).slice(0, 5);
 
 
     return (
         <Card className="h-96 flex flex-col">
-            <h3 className="text-lg font-semibold text-brand-green-900 mb-4">Alerts & Upcoming Events</h3>
+            <h3 className="text-lg font-semibold text-slate-900 mb-4">Alerts & Upcoming Events</h3>
             <div className="flex-1 overflow-y-auto space-y-4 pr-2">
                 {overdueEvents.length > 0 && overdueEvents.map(e => (
-                     <div key={e.id} className="flex items-start p-3 bg-red-50 border-l-4 border-red-400 rounded-r-lg">
-                        <div className="flex-shrink-0 text-red-500 mt-1"><AlertIcon/></div>
+                     <div key={e.id} className="flex items-start p-3 bg-red-50 border-l-4 border-red-500 rounded">
+                        <div className="flex-shrink-0 text-red-600 mt-0.5"><AlertIcon/></div>
                         <div className="ml-3">
-                            <p className="text-sm font-bold text-red-700">Overdue {e.type === 'vaccination' ? 'Vaccination' : 'Task'}!</p>
-                            <p className="text-xs text-red-600">{e.description}</p>
-                            <p className="text-xs text-red-600">Was due: {new Date(e.date).toLocaleDateString()}</p>
+                            <p className="text-sm font-semibold text-red-800">Overdue {e.type === 'vaccination' ? 'Vaccination' : 'Task'}!</p>
+                            <p className="text-sm text-red-700">{e.description}</p>
+                            <p className="text-xs text-red-600 mt-1">Was due: {new Date(e.date).toLocaleDateString()}</p>
                         </div>
                     </div>
                 ))}
 
                 {upcomingEvents.length > 0 ? upcomingEvents.map(e => (
-                    <div key={e.id} className={`flex items-start p-3 rounded-r-lg bg-white border-l-4 ${
-                        e.type === 'vaccination' ? 'border-blue-400' : 'border-purple-400'
-                    }`}>
-                        <div className={`flex-shrink-0 mt-1 ${
-                            e.type === 'vaccination' ? 'text-blue-500' : 'text-purple-500'
-                        }`}>{e.type === 'vaccination' ? <SyringeIcon/> : <TaskIcon/>}</div>
+                    <div key={e.id} className={`flex items-start p-3 bg-slate-50 border-l-4 border-slate-400 rounded`}>
+                        <div className={`flex-shrink-0 mt-0.5 text-slate-600`}>
+                            {e.type === 'vaccination' ? <SyringeIcon/> : <TaskIcon/>}
+                        </div>
                         <div className="ml-3">
-                            <p className={`text-sm font-semibold ${
-                                e.type === 'vaccination' ? 'text-blue-700' : 'text-purple-700'
-                            }`}>{e.title}</p>
-                            <p className={`text-xs ${
-                                e.type === 'vaccination' ? 'text-blue-600' : 'text-purple-600'
-                            }`}>{e.description}</p>
-                            <p className={`text-xs ${
-                                e.type === 'vaccination' ? 'text-blue-600' : 'text-purple-600'
-                            }`}>Due: {new Date(e.date).toLocaleDateString()}</p>
+                            <p className={`text-sm font-semibold text-slate-800`}>{e.title}</p>
+                            <p className={`text-sm text-slate-600`}>{e.description}</p>
+                            <p className={`text-xs text-slate-500 mt-1`}>Due: {new Date(e.date).toLocaleDateString()}</p>
+
                         </div>
                     </div>
-                )) : overdueEvents.length === 0 && <p className="text-gray-500 text-sm mt-4">No upcoming events scheduled.</p>}
+                )) : overdueEvents.length === 0 && <p className="text-slate-500 text-sm text-center mt-16">No upcoming events scheduled.</p>}
             </div>
         </Card>
     );

@@ -29,37 +29,37 @@ const PoultryManagement: React.FC = () => {
     return (
         <div className="space-y-6">
             <div className="flex justify-between items-center">
-                <h2 className="text-2xl font-bold text-brand-green-900">Insect Inventory</h2>
-                <button onClick={openAddModal} className="px-5 py-2.5 bg-brand-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-brand-green-700 hover:shadow-glow-green transition-all duration-300">
+                <h2 className="text-2xl font-bold text-slate-900">Insect Inventory</h2>
+                <button onClick={openAddModal} className="px-4 py-2 bg-green-600 border border-transparent text-white rounded-lg hover:bg-green-700 transition-colors text-sm font-semibold">
                     Add New Category
                 </button>
             </div>
             <Card>
                 <div className="overflow-x-auto">
                     <table className="w-full text-left">
-                        <thead className="border-b-2 border-gray-100 bg-gray-50">
+                        <thead className="border-b-2 border-slate-200">
                             <tr>
-                                <th className="p-4 text-sm font-semibold text-gray-500 uppercase tracking-wider">Category</th>
-                                <th className="p-4 text-sm font-semibold text-gray-500 uppercase tracking-wider text-right">Count</th>
-                                <th className="p-4 text-sm font-semibold text-gray-500 uppercase tracking-wider text-center">Actions</th>
+                                <th className="p-4 text-sm font-semibold text-slate-600 uppercase tracking-wider">Category</th>
+                                <th className="p-4 text-sm font-semibold text-slate-600 uppercase tracking-wider text-right">Count</th>
+                                <th className="p-4 text-sm font-semibold text-slate-600 uppercase tracking-wider text-center">Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody className="divide-y divide-slate-100">
                             {state.poultry.map((category) => (
-                                <tr key={category.id} className="border-b border-gray-100 hover:bg-brand-green-50/50 transition-colors">
-                                    <td className="p-4 font-medium text-gray-800">{category.name}</td>
-                                    <td className="p-4 font-semibold text-brand-green-800 text-right">{category.count.toLocaleString()}</td>
+                                <tr key={category.id}>
+                                    <td className="p-4 font-medium text-slate-800">{category.name}</td>
+                                    <td className="p-4 font-semibold text-slate-800 text-right">{category.count.toLocaleString()}</td>
                                     <td className="p-4 text-center">
-                                        <button onClick={() => openEditModal(category)} className="text-blue-600 hover:text-blue-800 font-medium mr-3 hover:underline">Edit</button>
-                                        <button onClick={() => handleDelete(category.id)} className="text-red-600 hover:text-red-800 font-medium hover:underline">Delete</button>
+                                        <button onClick={() => openEditModal(category)} className="text-green-600 hover:underline text-sm font-semibold mr-4">Edit</button>
+                                        <button onClick={() => handleDelete(category.id)} className="text-red-600 hover:underline text-sm font-semibold">Delete</button>
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
-                        <tfoot className="border-t-2 border-gray-200">
+                        <tfoot className="border-t-2 border-slate-200">
                              <tr>
-                                <td className="p-4 font-bold text-gray-800">Total</td>
-                                <td className="p-4 font-bold text-brand-green-900 text-right" colSpan={2}>
+                                <td className="p-4 font-bold text-slate-900">Total</td>
+                                <td className="p-4 font-bold text-slate-900 text-right" colSpan={2}>
                                     {state.poultry.reduce((sum, item) => sum + item.count, 0).toLocaleString()}
                                 </td>
                              </tr>

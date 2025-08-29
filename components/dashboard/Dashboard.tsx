@@ -13,13 +13,13 @@ const Dashboard: React.FC = () => {
   const feedDaysLeft = feed.total > 0 && feed.dailyConsumption > 0 ? Math.floor(feed.total / feed.dailyConsumption) : 0;
 
   return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-in fade-in-0 slide-in-from-top-8 duration-500">
-        <StatCard title="Total Insects" value={totalPoultry.toLocaleString()} description="All insects on farm" icon={<TotalPoultryIcon />} />
-        <StatCard title="Feed Stock" value={`${feed.total.toLocaleString()} kg`} description="Total feed available" icon={<FeedStockIcon />} />
-        <StatCard title="Feed Days Left" value={`${feedDaysLeft} days`} description="Estimated until empty" icon={<FeedDaysLeftIcon />} />
+    <div className="space-y-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <StatCard title="Total Insects" value={totalPoultry.toLocaleString()} description="All insects on farm" icon={<TotalPoultryIcon />} color="green" />
+        <StatCard title="Feed Stock" value={`${feed.total.toLocaleString()} kg`} description="Total feed available" icon={<FeedStockIcon />} color="blue"/>
+        <StatCard title="Feed Days Left" value={`${feedDaysLeft} days`} description="Estimated until empty" icon={<FeedDaysLeftIcon />} color="amber"/>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-in fade-in-0 slide-in-from-top-12 duration-500 delay-100">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
             <PoultryChart data={poultry} />
         </div>

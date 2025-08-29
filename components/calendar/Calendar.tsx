@@ -37,7 +37,7 @@ const Calendar: React.FC<CalendarProps> = ({ currentDate, selectedDate, onDateSe
 
     return (
         <div>
-            <div className="grid grid-cols-7 gap-1 text-center text-xs font-semibold text-gray-500 mb-2">
+            <div className="grid grid-cols-7 gap-1 text-center text-xs font-semibold text-slate-500 mb-2">
                 {weekDays.map(day => <div key={day}>{day}</div>)}
             </div>
             <div className="grid grid-cols-7 gap-1">
@@ -51,13 +51,13 @@ const Calendar: React.FC<CalendarProps> = ({ currentDate, selectedDate, onDateSe
                     const hasVaccination = vaccinationDates.has(dateString);
 
                     return (
-                        <div key={dateString} onClick={() => onDateSelect(day)} className={`p-2 text-center cursor-pointer rounded-lg transition-colors relative ${isSelected ? 'bg-brand-green-600 text-white font-bold' : 'hover:bg-gray-100'}`}>
-                            <span className={`w-8 h-8 flex items-center justify-center rounded-full mx-auto ${isToday && !isSelected ? 'bg-brand-green-100 text-brand-green-700 font-bold' : ''}`}>
+                        <div key={dateString} onClick={() => onDateSelect(day)} className={`p-2 text-center cursor-pointer rounded-lg hover:bg-slate-100 relative transition-colors`}>
+                            <span className={`w-8 h-8 flex items-center justify-center mx-auto rounded-full ${isToday ? 'border-2 border-green-500' : ''} ${isSelected ? 'bg-green-600 text-white font-bold' : ''}`}>
                                 {day.getDate()}
                             </span>
                             <div className="flex justify-center items-center h-2 mt-1 space-x-1">
-                                {hasTask && <div className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-white' : 'bg-purple-500'}`}></div>}
-                                {hasVaccination && <div className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-white/70' : 'bg-blue-500'}`}></div>}
+                                {hasTask && <div className={`w-1.5 h-1.5 rounded-full bg-purple-500`}></div>}
+                                {hasVaccination && <div className={`w-1.5 h-1.5 rounded-full bg-blue-500`}></div>}
                             </div>
                         </div>
                     );

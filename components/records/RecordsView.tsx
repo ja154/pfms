@@ -5,6 +5,12 @@ import { useData } from '../../context/DataContext';
 import { FarmRecord, RecordType } from '../../types';
 import AddRecordModal from './AddRecordModal';
 
+const recordTypeColors: Record<RecordType, string> = {
+    [RecordType.FeedPurchase]: 'bg-blue-100 text-blue-800',
+    [RecordType.Vaccination]: 'bg-amber-100 text-amber-800',
+    [RecordType.PoultryCountChange]: 'bg-purple-100 text-purple-800',
+};
+
 const RecordsView: React.FC = () => {
     const { state, dispatch } = useData();
     const [filter, setFilter] = useState<'all' | RecordType>('all');
@@ -52,10 +58,10 @@ const RecordsView: React.FC = () => {
     const FilterButton: React.FC<{label: string; filterValue: 'all' | RecordType}> = ({ label, filterValue }) => (
         <button 
             onClick={() => setFilter(filterValue)} 
-            className={`px-4 py-1.5 text-sm font-medium rounded-full mb-2 transition-colors ${
+            className={`px-4 py-1.5 text-sm font-medium rounded-md transition-colors ${
                 filter === filterValue 
-                ? 'bg-brand-green-600 text-white shadow' 
-                : 'text-gray-600 bg-gray-100 hover:bg-gray-200'
+                ? 'bg-green-600 text-white' 
+                : 'text-slate-600 bg-white hover:bg-slate-50 border border-slate-300'
             }`}>
             {label}
         </button>
@@ -64,14 +70,14 @@ const RecordsView: React.FC = () => {
     return (
         <div className="space-y-6">
              <div className="flex justify-between items-center">
-                <h2 className="text-2xl font-bold text-brand-green-900">Farm Records</h2>
-                <button onClick={openAddModal} className="px-5 py-2.5 bg-brand-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-brand-green-700 hover:shadow-glow-green transition-all duration-300">
+                <h2 className="text-2xl font-bold text-slate-900">Farm Records</h2>
+                <button onClick={openAddModal} className="px-4 py-2 bg-green-600 border border-transparent text-white rounded-lg hover:bg-green-700 transition-colors text-sm font-semibold">
                     Add New Record
                 </button>
             </div>
             
             <Card>
-                <div className="flex justify-start space-x-2 mb-4 border-b border-gray-200 pb-2 flex-wrap">
+                <div className="flex justify-start space-x-2 mb-4 border-b border-slate-200 pb-4 flex-wrap">
                     <FilterButton label="All" filterValue="all" />
                     <FilterButton label={RecordType.FeedPurchase} filterValue={RecordType.FeedPurchase} />
                     <FilterButton label={RecordType.Vaccination} filterValue={RecordType.Vaccination} />
@@ -80,31 +86,27 @@ const RecordsView: React.FC = () => {
 
                 <div className="overflow-x-auto">
                      <table className="w-full text-left">
-                        <thead className="border-b-2 border-gray-100 bg-gray-50">
+                        <thead className="border-b-2 border-slate-200">
                             <tr>
-                                <th className="p-4 text-sm font-semibold text-gray-500 uppercase tracking-wider">Date</th>
-                                <th className="p-4 text-sm font-semibold text-gray-500 uppercase tracking-wider">Type</th>
-                                <th className="p-4 text-sm font-semibold text-gray-500 uppercase tracking-wider">Details</th>
-                                <th className="p-4 text-sm font-semibold text-gray-500 uppercase tracking-wider text-center">Actions</th>
+                                <th className="p-4 text-sm font-semibold text-slate-600 uppercase tracking-wider">Date</th>
+                                <th className="p-4 text-sm font-semibold text-slate-600 uppercase tracking-wider">Type</th>
+                                <th className="p-4 text-sm font-semibold text-slate-600 uppercase tracking-wider">Details</th>
+                                <th className="p-4 text-sm font-semibold text-slate-600 uppercase tracking-wider text-center">Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody className="divide-y divide-slate-100">
                             {filteredRecords.map((record) => (
-                                <tr key={record.id} className="border-b border-gray-100 hover:bg-brand-green-50/50 transition-colors">
-                                    <td className="p-4 font-medium text-gray-600 whitespace-nowrap">{new Date(record.date).toLocaleDateString()}</td>
+                                <tr key={record.id}>
+                                    <td className="p-4 font-medium text-slate-800 whitespace-nowrap">{new Date(record.date).toLocaleDateString()}</td>
                                     <td className="p-4">
-                                        <span className={`px-2 py-1 text-xs font-semibold rounded-full ${
-                                            record.type === RecordType.Vaccination ? 'bg-blue-100 text-blue-800' :
-                                            record.type === RecordType.FeedPurchase ? 'bg-amber-100 text-amber-800' :
-                                            'bg-purple-100 text-purple-800'
-                                        }`}>
+                                        <span className={`px-2.5 py-1 text-xs font-semibold rounded-full ${recordTypeColors[record.type]}`}>
                                             {record.type}
                                         </span>
                                     </td>
-                                    <td className="p-4 text-sm text-gray-700">{getRecordDescription(record)}</td>
+                                    <td className="p-4 text-sm text-slate-700">{getRecordDescription(record)}</td>
                                     <td className="p-4 text-center">
-                                        <button onClick={() => openEditModal(record)} className="text-blue-600 hover:text-blue-800 font-medium mr-3 hover:underline">Edit</button>
-                                        <button onClick={() => handleDelete(record.id)} className="text-red-600 hover:text-red-800 font-medium hover:underline">Delete</button>
+                                        <button onClick={() => openEditModal(record)} className="text-green-600 hover:underline text-sm font-semibold mr-4">Edit</button>
+                                        <button onClick={() => handleDelete(record.id)} className="text-red-600 hover:underline text-sm font-semibold">Delete</button>
                                     </td>
                                 </tr>
                             ))}
@@ -112,7 +114,7 @@ const RecordsView: React.FC = () => {
                      </table>
                 </div>
 
-                {filteredRecords.length === 0 && <p className="text-center text-gray-500 py-8">No records found for this category.</p>}
+                {filteredRecords.length === 0 && <p className="text-center text-slate-500 py-8">No records found for this category.</p>}
             </Card>
 
             <AddRecordModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} recordToEdit={editingRecord} />
