@@ -18,8 +18,8 @@ const NavItem: React.FC<{
       onClick={onClick}
       className={`flex items-center p-3 my-1 rounded-lg cursor-pointer transition-all duration-200 group ${
         isActive
-          ? 'bg-brand-green-600 text-white shadow-lg shadow-brand-green-500/30'
-          : 'text-gray-600 hover:bg-brand-green-100 hover:text-brand-green-800'
+          ? 'bg-gradient-to-r from-brand-green-600 to-brand-green-500 text-white shadow-lg shadow-brand-green-500/30'
+          : 'text-gray-600 hover:bg-brand-green-100/50 hover:text-brand-green-800'
       }`}
     >
       {icon}
@@ -32,10 +32,10 @@ const DashboardIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"></rect><rect width="7" height="5" x="14" y="3" rx="1"></rect><rect width="7" height="9" x="14" y="12" rx="1"></rect><rect width="7" height="5" x="3" y="16" rx="1"></rect></svg>
 );
 const PoultryIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18.43 5.43a2.43 2.43 0 1 0-2.86 2.86"></path><path d="M13.78 12.57 6.2 20.15s-2.83-2.83-2.83-5.66S6.2 8.83 6.2 8.83Z"></path><path d="m14 14 3 3"></path><path d="M12.57 13.78 20.15 6.2s2.83 2.83 2.83 5.66-2.83 5.66-2.83 5.66Z"></path><path d="m10 10-3 3"></path></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18.43 5.43a2.43 2.43 0 1 0-2.86 2.86"></path><path d="M13.78 12.57 6.2 20.15s-2.83-2.83-2.83-5.66S6.2 8.83 6.2 8.83Z"></path><path d="m14 14 3 3"></path><path d="M12.57 13.78 20.15 6.2s2.83 2.83 2.83 5.66-2.83 5.66-2.83 5.66Z"></path><path d="m10 10-3 3"></path></svg>
 );
 const FeedIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22a2 2 0 0 0 2-2h-4a2 2 0 0 0 2 2z"></path><path d="M20 13v-3a8 8 0 1 0-16 0v3"></path><path d="M20 13h-2c0-2.21-1.79-4-4-4s-4 1.79-4 4H8"></path><path d="M12 13v8"></path></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.29 14.29c-1.8 1.8-4.2 2.71-6.51 2.71-5.08 0-9.22-4.14-9.22-9.22 0-2.31.91-4.71 2.71-6.51Z"></path><path d="M14.29 14.29 22 22"></path><path d="M11.36 11.36c-1.8-1.8-2.71-4.2-2.71-6.51 0-2.31.91-4.71 2.71-6.51 1.8-1.8 4.2-2.71 6.51-2.71s4.71.91 6.51 2.71C23.09 4.14 24 6.54 24 8.85c0 2.31-.91 4.71-2.71 6.51l-8.64-8.64Z"></path></svg>
 );
 const RecordsIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><line x1="10" y1="9" x2="8" y2="9"></line></svg>
@@ -53,7 +53,7 @@ const SettingsIcon = () => (
 
 const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView }) => {
   return (
-    <aside className="w-64 bg-white shadow-lg flex-shrink-0 z-30 p-4 flex flex-col">
+    <aside className="w-64 bg-white/95 backdrop-blur-sm shadow-lg flex-shrink-0 z-30 p-4 flex flex-col border-r border-gray-200/80">
       <div className="flex items-center justify-center mb-8 pt-4">
         <img src="https://picsum.photos/seed/poultry/40/40" alt="Logo" className="rounded-full" />
         <span className="ml-3 text-2xl font-bold text-brand-green-800">PFMS</span>

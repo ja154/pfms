@@ -1,19 +1,39 @@
 
-import React from 'react';
+import React, { ReactNode } from 'react';
 import Card from '../ui/Card';
+
+export const TotalPoultryIcon: React.FC = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18.43 5.43a2.43 2.43 0 1 0-2.86 2.86"></path><path d="M13.78 12.57 6.2 20.15s-2.83-2.83-2.83-5.66S6.2 8.83 6.2 8.83Z"></path><path d="m14 14 3 3"></path><path d="M12.57 13.78 20.15 6.2s2.83 2.83 2.83 5.66-2.83 5.66-2.83 5.66Z"></path><path d="m10 10-3 3"></path></svg>
+);
+export const FeedStockIcon: React.FC = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.29 14.29c-1.8 1.8-4.2 2.71-6.51 2.71-5.08 0-9.22-4.14-9.22-9.22 0-2.31.91-4.71 2.71-6.51Z"></path><path d="M14.29 14.29 22 22"></path><path d="M11.36 11.36c-1.8-1.8-2.71-4.2-2.71-6.51 0-2.31.91-4.71 2.71-6.51 1.8-1.8 4.2-2.71 6.51-2.71s4.71.91 6.51 2.71C23.09 4.14 24 6.54 24 8.85c0 2.31-.91 4.71-2.71 6.51l-8.64-8.64Z"></path></svg>
+);
+export const FeedDaysLeftIcon: React.FC = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+);
 
 interface StatCardProps {
   title: string;
   value: string | number;
   description: string;
+  icon: ReactNode;
 }
 
-const StatCard: React.FC<StatCardProps> = ({ title, value, description }) => {
+const StatCard: React.FC<StatCardProps> = ({ title, value, description, icon }) => {
   return (
-    <Card>
-      <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider">{title}</h3>
-      <p className="mt-2 text-3xl font-bold text-brand-green-800">{value}</p>
-      <p className="mt-1 text-sm text-gray-500">{description}</p>
+    <Card className="p-0">
+      <div className="flex items-center">
+        <div className="p-4 bg-gradient-to-br from-brand-green-100 to-brand-green-200 rounded-l-xl">
+            <div className="p-2 bg-white/50 rounded-lg text-brand-green-700">
+                {icon}
+            </div>
+        </div>
+        <div className="p-4">
+            <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider">{title}</h3>
+            <p className="mt-1 text-3xl font-bold text-brand-green-800">{value}</p>
+            <p className="mt-1 text-sm text-gray-500">{description}</p>
+        </div>
+      </div>
     </Card>
   );
 };

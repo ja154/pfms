@@ -49,6 +49,18 @@ const RecordsView: React.FC = () => {
         return '';
     };
 
+    const FilterButton: React.FC<{label: string; filterValue: 'all' | RecordType}> = ({ label, filterValue }) => (
+        <button 
+            onClick={() => setFilter(filterValue)} 
+            className={`px-4 py-1.5 text-sm font-medium rounded-full mb-2 transition-colors ${
+                filter === filterValue 
+                ? 'bg-brand-green-600 text-white shadow' 
+                : 'text-gray-600 bg-gray-100 hover:bg-gray-200'
+            }`}>
+            {label}
+        </button>
+    );
+
     return (
         <div className="space-y-6">
              <div className="flex justify-between items-center">
@@ -60,30 +72,30 @@ const RecordsView: React.FC = () => {
             
             <Card>
                 <div className="flex justify-start space-x-2 mb-4 border-b border-gray-200 pb-2 flex-wrap">
-                    <button onClick={() => setFilter('all')} className={`px-4 py-1.5 text-sm font-medium rounded-full mb-2 transition-colors ${filter === 'all' ? 'bg-brand-green-600 text-white' : 'text-gray-600 hover:bg-brand-green-100'}`}>All</button>
-                    <button onClick={() => setFilter(RecordType.FeedPurchase)} className={`px-4 py-1.5 text-sm font-medium rounded-full mb-2 transition-colors ${filter === RecordType.FeedPurchase ? 'bg-brand-green-600 text-white' : 'text-gray-600 hover:bg-brand-green-100'}`}>{RecordType.FeedPurchase}</button>
-                    <button onClick={() => setFilter(RecordType.Vaccination)} className={`px-4 py-1.5 text-sm font-medium rounded-full mb-2 transition-colors ${filter === RecordType.Vaccination ? 'bg-brand-green-600 text-white' : 'text-gray-600 hover:bg-brand-green-100'}`}>{RecordType.Vaccination}</button>
-                    <button onClick={() => setFilter(RecordType.PoultryCountChange)} className={`px-4 py-1.5 text-sm font-medium rounded-full mb-2 transition-colors ${filter === RecordType.PoultryCountChange ? 'bg-brand-green-600 text-white' : 'text-gray-600 hover:bg-brand-green-100'}`}>{RecordType.PoultryCountChange}</button>
+                    <FilterButton label="All" filterValue="all" />
+                    <FilterButton label={RecordType.FeedPurchase} filterValue={RecordType.FeedPurchase} />
+                    <FilterButton label={RecordType.Vaccination} filterValue={RecordType.Vaccination} />
+                    <FilterButton label={RecordType.PoultryCountChange} filterValue={RecordType.PoultryCountChange} />
                 </div>
 
                 <div className="overflow-x-auto">
                      <table className="w-full text-left">
-                        <thead className="border-b-2 border-brand-brown-100">
+                        <thead className="border-b-2 border-gray-100 bg-gray-50">
                             <tr>
-                                <th className="p-4 text-sm font-semibold text-gray-500 uppercase">Date</th>
-                                <th className="p-4 text-sm font-semibold text-gray-500 uppercase">Type</th>
-                                <th className="p-4 text-sm font-semibold text-gray-500 uppercase">Details</th>
-                                <th className="p-4 text-sm font-semibold text-gray-500 uppercase text-center">Actions</th>
+                                <th className="p-4 text-sm font-semibold text-gray-500 uppercase tracking-wider">Date</th>
+                                <th className="p-4 text-sm font-semibold text-gray-500 uppercase tracking-wider">Type</th>
+                                <th className="p-4 text-sm font-semibold text-gray-500 uppercase tracking-wider">Details</th>
+                                <th className="p-4 text-sm font-semibold text-gray-500 uppercase tracking-wider text-center">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {filteredRecords.map((record, index) => (
-                                <tr key={record.id} className={`border-b border-brand-brown-100 ${index % 2 === 0 ? 'bg-brand-brown-50/50' : 'bg-white'}`}>
+                            {filteredRecords.map((record) => (
+                                <tr key={record.id} className="border-b border-gray-100 hover:bg-brand-green-50/50 transition-colors">
                                     <td className="p-4 font-medium text-gray-600 whitespace-nowrap">{new Date(record.date).toLocaleDateString()}</td>
                                     <td className="p-4">
                                         <span className={`px-2 py-1 text-xs font-semibold rounded-full ${
                                             record.type === RecordType.Vaccination ? 'bg-blue-100 text-blue-800' :
-                                            record.type === RecordType.FeedPurchase ? 'bg-yellow-100 text-yellow-800' :
+                                            record.type === RecordType.FeedPurchase ? 'bg-amber-100 text-amber-800' :
                                             'bg-purple-100 text-purple-800'
                                         }`}>
                                             {record.type}

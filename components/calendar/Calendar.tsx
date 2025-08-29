@@ -51,11 +51,13 @@ const Calendar: React.FC<CalendarProps> = ({ currentDate, selectedDate, onDateSe
                     const hasVaccination = vaccinationDates.has(dateString);
 
                     return (
-                        <div key={dateString} onClick={() => onDateSelect(day)} className={`p-2 text-center cursor-pointer rounded-lg transition-colors ${isSelected ? 'bg-brand-green-600 text-white' : isToday ? 'bg-brand-green-100' : 'hover:bg-gray-100'}`}>
-                            <span className={`relative ${isSelected ? 'font-bold' : ''}`}>{day.getDate()}</span>
+                        <div key={dateString} onClick={() => onDateSelect(day)} className={`p-2 text-center cursor-pointer rounded-lg transition-colors relative ${isSelected ? 'bg-brand-green-600 text-white font-bold' : 'hover:bg-gray-100'}`}>
+                            <span className={`w-8 h-8 flex items-center justify-center rounded-full mx-auto ${isToday && !isSelected ? 'bg-brand-green-100 text-brand-green-700 font-bold' : ''}`}>
+                                {day.getDate()}
+                            </span>
                             <div className="flex justify-center items-center h-2 mt-1 space-x-1">
-                                {hasTask && <div className="w-1.5 h-1.5 rounded-full bg-purple-500"></div>}
-                                {hasVaccination && <div className="w-1.5 h-1.5 rounded-full bg-blue-500"></div>}
+                                {hasTask && <div className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-white' : 'bg-purple-500'}`}></div>}
+                                {hasVaccination && <div className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-white/70' : 'bg-blue-500'}`}></div>}
                             </div>
                         </div>
                     );

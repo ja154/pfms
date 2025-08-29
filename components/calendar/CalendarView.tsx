@@ -95,13 +95,13 @@ const CalendarView: React.FC = () => {
 
                 <div className="lg:col-span-1">
                     <Card className="h-full">
-                        <h3 className="text-lg font-semibold text-brand-green-900 border-b pb-2 mb-4">
+                        <h3 className="text-lg font-semibold text-brand-green-900 border-b border-gray-200 pb-2 mb-4">
                            Events for {selectedDate.toLocaleDateString('default', { weekday: 'long', month: 'long', day: 'numeric' })}
                         </h3>
                         <div className="space-y-3 h-[450px] overflow-y-auto pr-2">
                            {eventsForSelectedDay.length > 0 ? (
                                eventsForSelectedDay.map(event => (
-                                   <div key={event.id} className="p-3 rounded-lg border bg-white">
+                                   <div key={event.id} className={`p-3 rounded-lg border-l-4 ${event.type === 'task' ? 'border-purple-400 bg-purple-50/50' : 'border-blue-400 bg-blue-50/50'}`}>
                                        {event.type === 'task' ? (
                                            <div className="flex items-start">
                                                 <input type="checkbox" checked={event.completed} onChange={() => handleToggleTaskCompletion(event.data as CalendarTask)} className="mt-1 h-4 w-4 rounded border-gray-300 text-brand-green-600 focus:ring-brand-green-500" />
@@ -118,7 +118,9 @@ const CalendarView: React.FC = () => {
                                            </div>
                                        ) : (
                                             <div className="flex items-center">
-                                                <div className="w-2 h-2 rounded-full bg-blue-500 mr-3 flex-shrink-0"></div>
+                                                <div className="text-blue-600 mr-3 flex-shrink-0">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m18 2 4 4"></path><path d="m17 7 3-3"></path><path d="M19 9 8.7 19.3a2.4 2.4 0 0 1-3.4 0L2.6 16.6a2.4 2.4 0 0 1 0-3.4Z"></path><path d="m14 11-4 4"></path><path d="m6 16 4-4"></path><path d="m2 22 4-4"></path></svg>
+                                                </div>
                                                 <div>
                                                     <p className="text-sm font-medium text-blue-800">{event.title}</p>
                                                     <p className="text-xs text-gray-500">For {(event.data as VaccinationRecord).birdsVaccinated} birds</p>

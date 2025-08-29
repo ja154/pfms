@@ -62,7 +62,7 @@ const UpcomingEvents: React.FC = () => {
             <h3 className="text-lg font-semibold text-brand-green-900 mb-4">Alerts & Upcoming Events</h3>
             <div className="flex-1 overflow-y-auto space-y-4 pr-2">
                 {overdueEvents.length > 0 && overdueEvents.map(e => (
-                     <div key={e.id} className="flex items-start p-3 bg-red-50 border border-red-200 rounded-lg">
+                     <div key={e.id} className="flex items-start p-3 bg-red-50 border-l-4 border-red-400 rounded-r-lg">
                         <div className="flex-shrink-0 text-red-500 mt-1"><AlertIcon/></div>
                         <div className="ml-3">
                             <p className="text-sm font-bold text-red-700">Overdue {e.type === 'vaccination' ? 'Vaccination' : 'Task'}!</p>
@@ -73,8 +73,8 @@ const UpcomingEvents: React.FC = () => {
                 ))}
 
                 {upcomingEvents.length > 0 ? upcomingEvents.map(e => (
-                    <div key={e.id} className={`flex items-start p-3 rounded-lg ${
-                        e.type === 'vaccination' ? 'bg-blue-50 border border-blue-200' : 'bg-purple-50 border border-purple-200'
+                    <div key={e.id} className={`flex items-start p-3 rounded-r-lg bg-white border-l-4 ${
+                        e.type === 'vaccination' ? 'border-blue-400' : 'border-purple-400'
                     }`}>
                         <div className={`flex-shrink-0 mt-1 ${
                             e.type === 'vaccination' ? 'text-blue-500' : 'text-purple-500'

@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo, useEffect } from 'react';
 import { useData } from '../../context/DataContext';
 import Card from '../ui/Card';
@@ -97,7 +98,8 @@ const TabBookView: React.FC = () => {
         endFilter.setHours(23, 59, 59, 999);
 
         return baseTransactions.filter(t => {
-            // Date objects are created in local timezone, which is fine for comparison
+            // Dates are stored as YYYY-MM-DD strings. new Date() on this string creates a UTC date.
+            // Our filter dates are created in the local timezone. Comparison should be fine.
             const transactionDate = new Date(t.date);
             return transactionDate >= startFilter && transactionDate <= endFilter;
         });
@@ -164,13 +166,14 @@ const TabBookView: React.FC = () => {
                             cursor={{ fill: 'rgba(243, 244, 246, 0.5)' }}
                             contentStyle={{
                                 background: 'white',
-                                border: '1px solid #dcfce7',
-                                borderRadius: '0.5rem',
+                                border: '1px solid #e5e7eb',
+                                borderRadius: '0.75rem',
+                                boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
                             }}
                         />
-                        <Bar dataKey="balance" name="Balance">
+                        <Bar dataKey="balance" name="Balance" radius={[0, 4, 4, 0]}>
                             {sortedSuppliersByBalance.map((entry, index) => (
-                                <Cell key={`cell-${index}`} fill={entry.balance > 0 ? '#ef4444' : entry.balance < 0 ? '#22c55e' : '#6b7280'} />
+                                <Cell key={`cell-${index}`} fill={entry.balance > 0 ? '#ef4444' : entry.balance < 0 ? '#16a34a' : '#6b7280'} />
                             ))}
                         </Bar>
                     </BarChart>
@@ -243,17 +246,17 @@ const TabBookView: React.FC = () => {
                      <div className="overflow-x-auto">
                         {filteredTransactions.length > 0 ? (
                             <table className="w-full text-left">
-                                <thead className="border-b-2 border-brand-brown-100 bg-gray-50">
+                                <thead className="border-b-2 border-gray-100 bg-gray-50">
                                     <tr>
-                                        <th className="p-3 text-sm font-semibold text-gray-500 uppercase">Date</th>
-                                        <th className="p-3 text-sm font-semibold text-gray-500 uppercase">Description</th>
-                                        <th className="p-3 text-sm font-semibold text-gray-500 uppercase text-right">Amount</th>
-                                        <th className="p-3 text-sm font-semibold text-gray-500 uppercase text-center">Actions</th>
+                                        <th className="p-3 text-sm font-semibold text-gray-500 uppercase tracking-wider">Date</th>
+                                        <th className="p-3 text-sm font-semibold text-gray-500 uppercase tracking-wider">Description</th>
+                                        <th className="p-3 text-sm font-semibold text-gray-500 uppercase tracking-wider text-right">Amount</th>
+                                        <th className="p-3 text-sm font-semibold text-gray-500 uppercase tracking-wider text-center">Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-brand-brown-100">
+                                <tbody>
                                     {filteredTransactions.map(t => (
-                                        <tr key={t.id}>
+                                        <tr key={t.id} className="border-b border-gray-100 hover:bg-brand-green-50/50 transition-colors">
                                             <td className="p-3 text-sm text-gray-600 whitespace-nowrap">{new Date(t.date).toLocaleDateString()}</td>
                                             <td className="p-3 text-sm text-gray-800">{t.description}</td>
                                             <td className={`p-3 text-sm font-semibold text-right ${t.amount > 0 ? 'text-red-600' : 'text-green-600'}`}>

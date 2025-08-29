@@ -65,9 +65,9 @@ const FeedManagement: React.FC = () => {
                     ) : (
                         <p className="text-4xl font-bold text-brand-green-700">{feed.total.toLocaleString()} kg</p>
                     )}
-                     <div className="w-full bg-gray-200 rounded-full h-4 mt-4">
+                     <div className="w-full bg-gray-200 rounded-full h-4 mt-4 overflow-hidden">
                         <div 
-                            className="bg-brand-green-600 h-4 rounded-full"
+                            className="bg-gradient-to-r from-brand-green-500 to-brand-green-600 h-4 rounded-full transition-all duration-500"
                             style={{ width: `${percentage}%` }}
                         ></div>
                     </div>
@@ -103,18 +103,18 @@ const FeedManagement: React.FC = () => {
                  <h3 className="text-lg font-semibold text-gray-700 mb-4">Feed Purchase History</h3>
                  <div className="overflow-x-auto">
                     <table className="w-full text-left">
-                        <thead className="border-b-2 border-brand-brown-100">
+                        <thead className="border-b-2 border-gray-100 bg-gray-50">
                             <tr>
-                                <th className="p-4 text-sm font-semibold text-gray-500 uppercase">Date</th>
-                                <th className="p-4 text-sm font-semibold text-gray-500 uppercase">Supplier</th>
-                                <th className="p-4 text-sm font-semibold text-gray-500 uppercase text-right">Amount (kg)</th>
-                                <th className="p-4 text-sm font-semibold text-gray-500 uppercase text-right">Cost</th>
+                                <th className="p-4 text-sm font-semibold text-gray-500 uppercase tracking-wider">Date</th>
+                                <th className="p-4 text-sm font-semibold text-gray-500 uppercase tracking-wider">Supplier</th>
+                                <th className="p-4 text-sm font-semibold text-gray-500 uppercase tracking-wider text-right">Amount (kg)</th>
+                                <th className="p-4 text-sm font-semibold text-gray-500 uppercase tracking-wider text-right">Cost</th>
                             </tr>
                         </thead>
                         <tbody>
                             {feedPurchaseHistory.length > 0 ? (
-                                feedPurchaseHistory.map((record, index) => (
-                                    <tr key={record.id} className={`border-b border-brand-brown-100 ${index % 2 === 0 ? 'bg-brand-brown-50/50' : 'bg-white'}`}>
+                                feedPurchaseHistory.map((record) => (
+                                    <tr key={record.id} className="border-b border-gray-100 hover:bg-brand-green-50/50 transition-colors">
                                         <td className="p-4 font-medium text-gray-600 whitespace-nowrap">{new Date(record.date).toLocaleDateString()}</td>
                                         <td className="p-4 font-medium text-gray-800">{record.supplier}</td>
                                         <td className="p-4 font-semibold text-brand-green-800 text-right">{record.amount.toLocaleString()}</td>

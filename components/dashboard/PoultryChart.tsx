@@ -34,7 +34,7 @@ const PoultryChart: React.FC<PoultryChartProps> = ({ data }) => {
             }}
           />
           <Legend wrapperStyle={{paddingTop: '20px'}} />
-          <Bar dataKey="count" fill="#16a34a" name="Number of Birds" />
+          <Bar dataKey="count" fill="#16a34a" name="Number of Birds" radius={[4, 4, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
     </Card>

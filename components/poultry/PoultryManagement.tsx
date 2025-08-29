@@ -37,16 +37,16 @@ const PoultryManagement: React.FC = () => {
             <Card>
                 <div className="overflow-x-auto">
                     <table className="w-full text-left">
-                        <thead className="border-b-2 border-brand-brown-100">
+                        <thead className="border-b-2 border-gray-100 bg-gray-50">
                             <tr>
-                                <th className="p-4 text-sm font-semibold text-gray-500 uppercase">Category</th>
-                                <th className="p-4 text-sm font-semibold text-gray-500 uppercase text-right">Count</th>
-                                <th className="p-4 text-sm font-semibold text-gray-500 uppercase text-center">Actions</th>
+                                <th className="p-4 text-sm font-semibold text-gray-500 uppercase tracking-wider">Category</th>
+                                <th className="p-4 text-sm font-semibold text-gray-500 uppercase tracking-wider text-right">Count</th>
+                                <th className="p-4 text-sm font-semibold text-gray-500 uppercase tracking-wider text-center">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {state.poultry.map((category, index) => (
-                                <tr key={category.id} className={`border-b border-brand-brown-100 ${index % 2 === 0 ? 'bg-brand-brown-50/50' : 'bg-white'}`}>
+                            {state.poultry.map((category) => (
+                                <tr key={category.id} className="border-b border-gray-100 hover:bg-brand-green-50/50 transition-colors">
                                     <td className="p-4 font-medium text-gray-800">{category.name}</td>
                                     <td className="p-4 font-semibold text-brand-green-800 text-right">{category.count.toLocaleString()}</td>
                                     <td className="p-4 text-center">
@@ -56,7 +56,7 @@ const PoultryManagement: React.FC = () => {
                                 </tr>
                             ))}
                         </tbody>
-                        <tfoot className="border-t-2 border-gray-300">
+                        <tfoot className="border-t-2 border-gray-200">
                              <tr>
                                 <td className="p-4 font-bold text-gray-800">Total</td>
                                 <td className="p-4 font-bold text-brand-green-900 text-right" colSpan={2}>

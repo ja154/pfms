@@ -33,7 +33,7 @@ const Settings: React.FC = () => {
                         />
                     </div>
                     <div className="flex items-center justify-end">
-                         {saved && <span className="text-sm text-brand-green-700 mr-4">Saved successfully!</span>}
+                         {saved && <span className="text-sm text-brand-green-700 mr-4 animate-in fade-in-0">Saved successfully!</span>}
                         <button
                             type="submit"
                             className="px-6 py-2 bg-brand-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-brand-green-700 hover:shadow-glow-green transition-all duration-300"
