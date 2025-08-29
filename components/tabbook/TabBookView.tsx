@@ -108,12 +108,17 @@ const TabBookView: React.FC = () => {
                     <h3 className="text-lg font-semibold text-gray-700 mb-4">Suppliers</h3>
                     <div className="flex-1 overflow-y-auto pr-2 space-y-2">
                         {sortedSuppliersByName.map(supplier => (
-                            <div key={supplier.id} onClick={() => setSelectedSupplier(supplier)} className={`p-3 rounded-lg cursor-pointer border ${selectedSupplier?.id === supplier.id ? 'bg-brand-green-100 border-brand-green-400' : 'bg-white hover:bg-gray-50'}`}>
+                            <div key={supplier.id} onClick={() => setSelectedSupplier(supplier)}
+                                className={`p-3 rounded-lg cursor-pointer border-l-4 transition-colors ${
+                                    selectedSupplier?.id === supplier.id
+                                        ? 'bg-brand-green-100 border-brand-green-500'
+                                        : `bg-white hover:bg-gray-50 ${supplier.balance > 0 ? 'border-red-400' : supplier.balance < 0 ? 'border-green-400' : 'border-gray-300'}`
+                                }`}>
                                 <div className="flex justify-between items-center">
                                     <span className="font-semibold text-gray-800">{supplier.name}</span>
                                     <button onClick={(e) => { e.stopPropagation(); openEditSupplierModal(supplier)}} className="text-xs text-blue-600 hover:underline">Edit</button>
                                 </div>
-                                <p className={`text-sm font-bold ${supplier.balance > 0 ? 'text-red-600' : supplier.balance < 0 ? 'text-green-600' : 'text-gray-600'}`}>
+                                <p className={`text-base font-bold ${supplier.balance > 0 ? 'text-red-600' : supplier.balance < 0 ? 'text-green-600' : 'text-gray-600'}`}>
                                     {formatCurrency(supplier.balance)}
                                 </p>
                                 <p className="text-xs text-gray-500">
