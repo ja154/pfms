@@ -4,6 +4,7 @@ import Card from '../ui/Card';
 import { Supplier, TabBookTransaction } from '../../types';
 import AddEditSupplierModal from './AddEditSupplierModal';
 import AddEditTransactionModal from './AddEditTransactionModal';
+import ImportTransactionsModal from './ImportTransactionsModal';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 
 
@@ -12,6 +13,7 @@ const TabBookView: React.FC = () => {
     const [selectedSupplier, setSelectedSupplier] = useState<Supplier | null>(null);
     const [isSupplierModalOpen, setIsSupplierModalOpen] = useState(false);
     const [isTransactionModalOpen, setIsTransactionModalOpen] = useState(false);
+    const [isImportModalOpen, setIsImportModalOpen] = useState(false);
     const [editingSupplier, setEditingSupplier] = useState<Supplier | null>(null);
     const [editingTransaction, setEditingTransaction] = useState<TabBookTransaction | null>(null);
 
@@ -133,9 +135,12 @@ const TabBookView: React.FC = () => {
         <div className="space-y-6">
             <div className="flex flex-wrap justify-between items-center gap-4">
                 <h2 className="text-2xl font-bold text-brand-green-900">Tab Book</h2>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                      <button onClick={openAddSupplierModal} className="px-5 py-2.5 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 hover:shadow-glow-blue transition-all duration-300">
                         Add Supplier
+                    </button>
+                    <button onClick={() => setIsImportModalOpen(true)} className="px-5 py-2.5 bg-purple-600 text-white font-semibold rounded-lg shadow-md hover:bg-purple-700 hover:shadow-glow-purple transition-all duration-300">
+                        Import Transactions
                     </button>
                     <button onClick={openAddTransactionModal} className="px-5 py-2.5 bg-brand-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-brand-green-700 hover:shadow-glow-green transition-all duration-300">
                         Add Transaction
@@ -278,6 +283,11 @@ const TabBookView: React.FC = () => {
                 isOpen={isTransactionModalOpen}
                 onClose={() => setIsTransactionModalOpen(false)}
                 transactionToEdit={editingTransaction}
+            />
+
+            <ImportTransactionsModal
+                isOpen={isImportModalOpen}
+                onClose={() => setIsImportModalOpen(false)}
             />
         </div>
     );

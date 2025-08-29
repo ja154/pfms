@@ -29,7 +29,8 @@ type Action =
   | { type: 'DELETE_SUPPLIER', payload: string } // id
   | { type: 'ADD_TAB_TRANSACTION', payload: TabBookTransaction }
   | { type: 'UPDATE_TAB_TRANSACTION', payload: TabBookTransaction }
-  | { type: 'DELETE_TAB_TRANSACTION', payload: TabBookTransaction };
+  | { type: 'DELETE_TAB_TRANSACTION', payload: TabBookTransaction }
+  | { type: 'ADD_BULK_TAB_TRANSACTIONS', payload: TabBookTransaction[] };
 
 const initialState: AppState = {
   farmName: 'Green Acre Poultry Farm',
@@ -266,6 +267,26 @@ const appReducer = (state: AppState, action: Action): AppState => {
             ? { ...s, balance: s.balance - transactionToDelete.amount }
             : s
         ),
+      };
+    }
+    case 'ADD_BULK_TAB_TRANSACTIONS': {
+      const newTransactions = action.payload;
+      if (newTransactions.length === 0) return state;
+
+      const balanceChanges: { [supplierId: string]: number } = {};
+      
+      for (const trans of newTransactions) {
+          balanceChanges[trans.supplierId] = (balanceChanges[trans.supplierId] || 0) + trans.amount;
+      }
+      
+      return {
+          ...state,
+          tabBookTransactions: [...newTransactions, ...state.tabBookTransactions].sort((a,b) => new Date(b.date).getTime() - new Date(a.date).getTime()),
+          suppliers: state.suppliers.map(s => 
+              balanceChanges[s.id]
+                  ? { ...s, balance: s.balance + balanceChanges[s.id] }
+                  : s
+          )
       };
     }
     default:
