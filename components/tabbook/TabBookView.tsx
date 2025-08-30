@@ -17,6 +17,8 @@ const TabBookView: React.FC = () => {
     const [isImportModalOpen, setIsImportModalOpen] = useState(false);
     const [editingSupplier, setEditingSupplier] = useState<Supplier | null>(null);
     const [editingTransaction, setEditingTransaction] = useState<TabBookTransaction | null>(null);
+    const [searchQuery, setSearchQuery] = useState('');
+
 
     // State for date filtering
     const [dateFilter, setDateFilter] = useState('all');
@@ -114,9 +116,20 @@ const TabBookView: React.FC = () => {
     }, [state.suppliers]);
 
     const sortedSuppliersByName = useMemo(() => {
-        return [...state.suppliers].sort((a, b) => a.name.localeCompare(b.name));
-    }, [state.suppliers]);
+        return [...state.suppliers]
+            .filter(supplier =>
+                supplier.name.toLowerCase().includes(searchQuery.toLowerCase())
+            )
+            .sort((a, b) => a.name.localeCompare(b.name));
+    }, [state.suppliers, searchQuery]);
     
+    // Deselect supplier if they are filtered out
+    useEffect(() => {
+        if (selectedSupplier && !sortedSuppliersByName.find(s => s.id === selectedSupplier.id)) {
+            setSelectedSupplier(null);
+        }
+    }, [sortedSuppliersByName, selectedSupplier]);
+
     const FilterButton: React.FC<{label: string; filterValue: string}> = ({ label, filterValue }) => {
         const isActive = dateFilter === filterValue;
         return (
@@ -178,7 +191,24 @@ const TabBookView: React.FC = () => {
             </Card>
 
             <Card>
-                <h3 className="text-lg font-semibold text-slate-900 mb-4">Suppliers</h3>
+                <div className="flex flex-wrap gap-4 justify-between items-center mb-4">
+                    <h3 className="text-lg font-semibold text-slate-900">Suppliers</h3>
+                    <div className="relative w-full max-w-xs">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg className="h-5 w-5 text-slate-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
+                            </svg>
+                        </div>
+                        <input
+                            type="text"
+                            placeholder="Search suppliers..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="w-full pl-10 pr-3 py-2 bg-white text-slate-800 border border-slate-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
+                            aria-label="Search suppliers"
+                        />
+                    </div>
+                </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {sortedSuppliersByName.map(supplier => (
                         <div key={supplier.id} onClick={() => setSelectedSupplier(supplier)}
@@ -200,6 +230,9 @@ const TabBookView: React.FC = () => {
                         </div>
                     ))}
                 </div>
+                {sortedSuppliersByName.length === 0 && (
+                     <p className="text-center text-slate-500 py-12">No suppliers match your search.</p>
+                )}
             </Card>
             
             {selectedSupplier && (

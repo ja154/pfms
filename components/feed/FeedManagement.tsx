@@ -2,11 +2,12 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import Card from '../ui/Card';
 import { useData } from '../../context/DataContext';
-import { RecordType, FeedPurchaseRecord } from '../../types';
+import { RecordType, FeedPurchaseRecord, PoultryCountChangeRecord } from '../../types';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const FeedManagement: React.FC = () => {
     const { state, dispatch } = useData();
-    const { feed, records } = state;
+    const { feed, records, poultry } = state;
 
     const [isEditing, setIsEditing] = useState(false);
     const [editableFeed, setEditableFeed] = useState({ ...feed });
@@ -34,6 +35,54 @@ const FeedManagement: React.FC = () => {
             .filter((r): r is FeedPurchaseRecord => r.type === RecordType.FeedPurchase)
             .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     }, [records]);
+    
+    const consumptionHistory = useMemo(() => {
+        const data = [];
+        
+        const totalCurrentPoultry = poultry.reduce((sum, p) => sum + p.count, 0);
+        
+        if (totalCurrentPoultry === 0 || feed.dailyConsumption === 0) {
+            for(let i=0; i<7; i++) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                data.unshift({
+                    name: i === 0 ? 'Today' : date.toLocaleDateString('default', { month: 'short', day: 'numeric' }),
+                    consumption: 0,
+                });
+            }
+            return data;
+        }
+
+        const consumptionPerInsect = feed.dailyConsumption / totalCurrentPoultry;
+        const changeRecords = records.filter(
+            (r): r is PoultryCountChangeRecord => r.type === RecordType.PoultryCountChange
+        );
+
+        let runningPoultryCount = totalCurrentPoultry;
+
+        for (let i = 0; i < 7; i++) {
+            const date = new Date();
+            date.setDate(date.getDate() - i);
+            const dateString = date.toISOString().split('T')[0];
+            const dateName = i === 0 ? 'Today' : date.toLocaleDateString('default', { month: 'short', day: 'numeric' });
+            
+            const estimatedConsumption = runningPoultryCount * consumptionPerInsect;
+
+            data.unshift({
+                name: dateName,
+                consumption: Math.round(estimatedConsumption),
+            });
+            
+            const changesOnThisDay = changeRecords.filter(r => r.date === dateString);
+            for (const record of changesOnThisDay) {
+                const change = record.changeType === 'addition' ? record.changeAmount : -record.changeAmount;
+                runningPoultryCount -= change;
+            }
+        }
+
+        return data;
+    }, [records, poultry, feed.dailyConsumption]);
+
 
     return (
         <div className="space-y-6">
@@ -99,6 +148,30 @@ const FeedManagement: React.FC = () => {
                     </div>
                 </Card>
             </div>
+             <Card>
+                <h3 className="text-lg font-semibold text-slate-900 mb-4">Daily Feed Consumption (Last 7 Days)</h3>
+                <ResponsiveContainer width="100%" height={300}>
+                    <LineChart
+                        data={consumptionHistory}
+                        margin={{ top: 5, right: 20, left: -10, bottom: 5 }}
+                    >
+                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                        <XAxis dataKey="name" tick={{ fill: '#475569', fontSize: 12 }} />
+                        <YAxis tick={{ fill: '#475569', fontSize: 12 }} unit="kg" />
+                        <Tooltip
+                            formatter={(value: number) => [`${value.toLocaleString()} kg`, 'Consumption']}
+                            cursor={{ stroke: '#16a34a', strokeWidth: 1, strokeDasharray: '3 3' }}
+                             contentStyle={{
+                                background: 'white',
+                                border: '1px solid #e2e8f0',
+                                borderRadius: '0.5rem',
+                            }}
+                        />
+                        <Legend wrapperStyle={{paddingTop: '10px'}}/>
+                        <Line type="monotone" dataKey="consumption" name="Est. Daily Consumption" stroke="#16a34a" strokeWidth={2} dot={{ r: 4 }} activeDot={{ r: 6 }} />
+                    </LineChart>
+                </ResponsiveContainer>
+            </Card>
              <Card>
                  <h3 className="text-lg font-semibold text-slate-900 mb-4">Feed Purchase History</h3>
                  <div className="overflow-x-auto">
