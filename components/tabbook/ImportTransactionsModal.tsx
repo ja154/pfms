@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback } from 'react';
 import { useData } from '../../context/DataContext';
 import { TabBookTransaction } from '../../types';
@@ -79,13 +78,14 @@ const ImportTransactionsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             const supplierMap = new Map(state.suppliers.map(s => [s.name.toLowerCase(), s.id]));
 
             for (let i = 1; i < lines.length; i++) {
-                const values = lines[i].split(',');
+                // Fix: Use a more robust regex for splitting CSV rows to handle commas within quoted fields.
+                const values = lines[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
                 const rowNum = i + 1;
                 
-                const date = values[0]?.trim();
-                const description = values[1]?.trim();
-                const amountStr = values[2]?.trim();
-                const supplierName = values[3]?.trim();
+                const date = values[0]?.trim().replace(/^"|"$/g, '');
+                const description = values[1]?.trim().replace(/^"|"$/g, '');
+                const amountStr = values[2]?.trim().replace(/^"|"$/g, '');
+                const supplierName = values[3]?.trim().replace(/^"|"$/g, '');
 
                 if (!date || !description || !amountStr || !supplierName) {
                     validationErrors.push(`Row ${rowNum}: Contains missing values.`);
