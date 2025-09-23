@@ -33,75 +33,16 @@ type Action =
   | { type: 'ADD_BULK_TAB_TRANSACTIONS', payload: TabBookTransaction[] };
 
 const defaultInitialState: AppState = {
-  farmName: 'Green Acre Frass Farm',
-  poultry: [
-    { id: '1', name: 'Larva Beds', count: 1250 },
-    { id: '2', name: 'Breeding Colonies', count: 800 },
-    { id: '3', name: 'Hatchling Trays', count: 450 },
-    { id: '4', name: 'Harvesting Bins', count: 150 },
-  ],
+  farmName: 'My Frass Farm',
+  poultry: [],
   feed: {
-    total: 2500, // kg
-    dailyConsumption: 120, // kg
+    total: 0, // kg
+    dailyConsumption: 0, // kg
   },
-  records: [
-    {
-      id: 'v1',
-      type: RecordType.Vaccination,
-      date: new Date(new Date().setDate(new Date().getDate() - 10)).toISOString().split('T')[0],
-      vaccineType: 'Substrate Additive',
-      birdsVaccinated: 450,
-      nextDueDate: new Date(new Date().setDate(new Date().getDate() + 20)).toISOString().split('T')[0],
-    },
-    {
-      id: 'f1',
-      type: RecordType.FeedPurchase,
-      date: new Date(new Date().setDate(new Date().getDate() - 5)).toISOString().split('T')[0],
-      supplier: 'FarmPro Feeds',
-      amount: 1000,
-      cost: 450,
-    },
-     {
-      id: 'v2',
-      type: RecordType.Vaccination,
-      date: new Date(new Date().setDate(new Date().getDate() - 30)).toISOString().split('T')[0],
-      vaccineType: 'Nutrient Boost',
-      birdsVaccinated: 1250,
-      nextDueDate: new Date(new Date().setDate(new Date().getDate() - 2)).toISOString().split('T')[0],
-    },
-  ],
-  tasks: [
-    {
-      id: 't1',
-      date: new Date().toISOString().split('T')[0],
-      title: 'Clean the main coop',
-      description: 'Full cleanout, change litter, and disinfect.',
-      completed: false,
-    },
-    {
-      id: 't2',
-      date: new Date(new Date().setDate(new Date().getDate() + 3)).toISOString().split('T')[0],
-      title: 'Order new batch of feed',
-      description: 'Order 1500kg of grower feed.',
-      completed: false,
-    },
-     {
-      id: 't3',
-      date: new Date(new Date().setDate(new Date().getDate() + 3)).toISOString().split('T')[0],
-      title: 'Repair fence on west pasture',
-      completed: true,
-    },
-  ],
-  suppliers: [
-      { id: 's1', name: 'FarmPro Feeds', balance: 250 },
-      { id: 's2', name: 'Local Grains Co-op', balance: -30 },
-      { id: 's3', name: 'Vet Supplies Inc.', balance: 0 },
-  ],
-  tabBookTransactions: [
-      { id: 'tr1', supplierId: 's1', date: new Date(new Date().setDate(new Date().getDate() - 12)).toISOString().split('T')[0], description: '20 bags of grower feed', amount: 500 },
-      { id: 'tr2', supplierId: 's1', date: new Date(new Date().setDate(new Date().getDate() - 3)).toISOString().split('T')[0], description: 'Payment for invoice #112', amount: -250 },
-      { id: 'tr3', supplierId: 's2', date: new Date(new Date().setDate(new Date().getDate() - 8)).toISOString().split('T')[0], description: 'Overpayment on grain purchase', amount: -30 },
-  ],
+  records: [],
+  tasks: [],
+  suppliers: [],
+  tabBookTransactions: [],
 };
 
 const LOCAL_STORAGE_KEY = 'frassFarmManagementData';

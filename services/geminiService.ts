@@ -1,4 +1,3 @@
-
 import { GoogleGenAI, Type } from "@google/genai";
 
 const API_KEY = process.env.API_KEY;
@@ -13,9 +12,9 @@ export const generateFarmIdeas = async (): Promise<string[]> => {
   if (!API_KEY) {
       return Promise.resolve([
           "Tip: Set up your Gemini API key to get AI-powered ideas!",
-          "Consider using rotational grazing for healthier pastures.",
-          "Install nipple waterers to keep water clean and reduce waste.",
-          "Compost poultry litter to create valuable fertilizer for your farm."
+          "Optimize substrate depth in larva beds for better temperature control.",
+          "Experiment with different feedstocks to improve frass quality.",
+          "Ensure proper ventilation to manage humidity in breeding colonies."
       ]);
   }
   try {
@@ -45,7 +44,7 @@ export const generateFarmIdeas = async (): Promise<string[]> => {
   } catch (error) {
     console.error("Error generating farm ideas:", error);
     return [
-      "Could not fetch AI-powered ideas. Here's a default tip: Regularly check your flock for signs of illness to ensure their health."
+      "Could not fetch AI-powered ideas. Here's a default tip: Regularly monitor your insect colonies for signs of stress or disease."
     ];
   }
 };

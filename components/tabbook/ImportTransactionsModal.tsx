@@ -28,8 +28,8 @@ const ImportTransactionsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 
     const handleDownloadTemplate = () => {
         const header = "date,description,amount,supplier_name\n";
-        const example1 = "2024-05-20,Purchase of 10 feed bags,150.75,FarmPro Feeds\n";
-        const example2 = "2024-05-21,Payment for invoice #123,-100,Local Grains Co-op\n";
+        const example1 = "YYYY-MM-DD,\"Item description\",150.75,\"Supplier A\"\n";
+        const example2 = "YYYY-MM-DD,\"Payment\",-100,\"Supplier B\"\n";
         const csvContent = "data:text/csv;charset=utf-8," + header + example1 + example2;
 
         const encodedUri = encodeURI(csvContent);
@@ -78,7 +78,6 @@ const ImportTransactionsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             const supplierMap = new Map(state.suppliers.map(s => [s.name.toLowerCase(), s.id]));
 
             for (let i = 1; i < lines.length; i++) {
-                // Fix: Use a more robust regex for splitting CSV rows to handle commas within quoted fields.
                 const values = lines[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
                 const rowNum = i + 1;
                 
@@ -87,44 +86,57 @@ const ImportTransactionsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                 const amountStr = values[2]?.trim().replace(/^"|"$/g, '');
                 const supplierName = values[3]?.trim().replace(/^"|"$/g, '');
 
+                const rowErrors: string[] = [];
+
                 if (!date || !description || !amountStr || !supplierName) {
-                    validationErrors.push(`Row ${rowNum}: Contains missing values.`);
-                    continue;
-                }
-                
-                if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
-                    validationErrors.push(`Row ${rowNum}: Invalid date format for "${date}". Use YYYY-MM-DD.`);
-                }
+                    rowErrors.push(`Row ${rowNum}: Contains missing values.`);
+                } else {
+                    if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+                        rowErrors.push(`Row ${rowNum}: Invalid date format for "${date}". Use YYYY-MM-DD.`);
+                    }
 
-                const amount = parseFloat(amountStr);
-                if (isNaN(amount)) {
-                    validationErrors.push(`Row ${rowNum}: Amount "${amountStr}" is not a valid number.`);
-                }
-                
-                const supplierId = supplierMap.get(supplierName.toLowerCase());
-                if (!supplierId) {
-                    validationErrors.push(`Row ${rowNum}: Supplier "${supplierName}" not found. Please add them first or check for typos.`);
-                }
+                    const amount = parseFloat(amountStr);
+                    if (isNaN(amount)) {
+                        rowErrors.push(`Row ${rowNum}: Amount "${amountStr}" is not a valid number.`);
+                    }
+                    
+                    const supplierId = supplierMap.get(supplierName.toLowerCase());
+                    if (!supplierId) {
+                        rowErrors.push(`Row ${rowNum}: Supplier "${supplierName}" not found. Please add them first or check for typos.`);
+                    }
 
-                if (validationErrors.length === 0) {
-                    newTransactions.push({
-                        id: `imp_${new Date().getTime()}_${i}`,
-                        date,
-                        description,
-                        amount,
-                        supplierId: supplierId!,
-                    });
+                    // If no errors for this row, create the transaction
+                    if (rowErrors.length === 0 && supplierId) {
+                        newTransactions.push({
+                            id: `imp_${new Date().getTime()}_${i}`,
+                            date,
+                            description,
+                            amount,
+                            supplierId,
+                        });
+                    }
                 }
+                validationErrors.push(...rowErrors);
             }
 
             if (validationErrors.length > 0) {
                 setStatus('error');
                 setErrors(validationErrors);
-            } else {
+            }
+            
+            if (newTransactions.length > 0) {
                 dispatch({ type: 'ADD_BULK_TAB_TRANSACTIONS', payload: newTransactions });
                 setStatus('success');
-                setSuccessMessage(`Successfully imported ${newTransactions.length} transactions!`);
-                setSelectedFile(null);
+                if (validationErrors.length > 0) {
+                    setSuccessMessage(`Successfully imported ${newTransactions.length} valid transactions. Some rows had errors.`);
+                } else {
+                    setSuccessMessage(`Successfully imported ${newTransactions.length} transactions!`);
+                    setSelectedFile(null);
+                }
+            } else if (validationErrors.length === 0) {
+                // No transactions and no errors means empty file (after header).
+                 setSuccessMessage('No new transactions found to import.');
+                 setStatus('success');
             }
         };
         
