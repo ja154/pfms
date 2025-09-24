@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo } from 'react';
 import { useData } from '../../context/DataContext';
 import Calendar from './Calendar';
@@ -64,6 +63,23 @@ const CalendarView: React.FC = () => {
         return [...tasks, ...vaccinations];
     }, [state.tasks, state.records, selectedDateString]);
 
+    const incompleteTasksForSelectedDay = useMemo(() => {
+        return eventsForSelectedDay
+            .filter(event => event.type === 'task' && !event.completed)
+            .map(event => event.data as CalendarTask);
+    }, [eventsForSelectedDay]);
+
+    const handleMarkAllDone = () => {
+        if (incompleteTasksForSelectedDay.length === 0) return;
+        
+        if (window.confirm(`Are you sure you want to mark all ${incompleteTasksForSelectedDay.length} tasks for this day as done?`)) {
+            incompleteTasksForSelectedDay.forEach(task => {
+                dispatch({ type: 'UPDATE_TASK', payload: { ...task, completed: true } });
+            });
+        }
+    };
+
+
     return (
         <div className="space-y-6">
             <div className="flex justify-between items-center">
@@ -77,11 +93,11 @@ const CalendarView: React.FC = () => {
                 <div className="lg:col-span-2">
                     <Card>
                         <div className="flex justify-between items-center mb-4">
-                            <button onClick={handlePrevMonth} className="p-2 rounded-full hover:bg-slate-100 text-slate-500 hover:text-slate-800">&lt;</button>
+                            <button onClick={handlePrevMonth} className="p-2 rounded-full hover:bg-slate-100 text-slate-500 hover:text-slate-800" aria-label="Previous month">&lt;</button>
                             <h3 className="text-xl font-semibold text-slate-800">
                                 {currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })}
                             </h3>
-                            <button onClick={handleNextMonth} className="p-2 rounded-full hover:bg-slate-100 text-slate-500 hover:text-slate-800">&gt;</button>
+                            <button onClick={handleNextMonth} className="p-2 rounded-full hover:bg-slate-100 text-slate-500 hover:text-slate-800" aria-label="Next month">&gt;</button>
                         </div>
                         <Calendar 
                             currentDate={currentDate} 
@@ -94,19 +110,30 @@ const CalendarView: React.FC = () => {
                 </div>
 
                 <div className="lg:col-span-1">
-                    <Card className="h-full">
-                        <h3 className="text-lg font-semibold text-slate-900 border-b border-slate-200 pb-3 mb-4">
-                           Events for {selectedDate.toLocaleDateString('default', { weekday: 'long', month: 'long', day: 'numeric' })}
-                        </h3>
-                        <div className="space-y-3 h-[450px] overflow-y-auto pr-2">
+                    <Card className="h-full flex flex-col">
+                        <div className="border-b border-slate-200 pb-3 mb-4">
+                            <h3 className="text-lg font-semibold text-slate-900 mb-2">
+                               Events for {selectedDate.toLocaleDateString('default', { weekday: 'long', month: 'long', day: 'numeric' })}
+                            </h3>
+                             {incompleteTasksForSelectedDay.length > 0 && (
+                                <button
+                                    onClick={handleMarkAllDone}
+                                    className="w-full px-3 py-1.5 text-xs font-semibold text-white bg-green-600 rounded-md hover:bg-green-700 transition-colors"
+                                    aria-label={`Mark all ${incompleteTasksForSelectedDay.length} tasks as done`}
+                                >
+                                    Mark All as Done ({incompleteTasksForSelectedDay.length})
+                                </button>
+                            )}
+                        </div>
+                        <div className="space-y-3 flex-1 overflow-y-auto pr-2">
                            {eventsForSelectedDay.length > 0 ? (
                                eventsForSelectedDay.map(event => (
                                    <div key={event.id} className={`p-3 border-l-4 rounded ${event.type === 'task' ? 'bg-slate-50 border-purple-500' : 'bg-blue-50 border-blue-500'}`}>
                                        {event.type === 'task' ? (
                                            <div className="flex items-start">
-                                                <input type="checkbox" checked={event.completed} onChange={() => handleToggleTaskCompletion(event.data as CalendarTask)} className="mt-1 h-4 w-4 border-slate-300 rounded text-green-600 focus:ring-green-500" />
+                                                <input type="checkbox" checked={event.completed} onChange={() => handleToggleTaskCompletion(event.data as CalendarTask)} className="mt-1 h-4 w-4 border-slate-300 rounded text-green-600 focus:ring-green-500" aria-labelledby={`task-title-${event.id}`} />
                                                 <div className="ml-3 flex-1">
-                                                    <p className={`text-sm font-medium ${event.completed ? 'line-through text-slate-500' : 'text-slate-800'}`}>
+                                                    <p id={`task-title-${event.id}`} className={`text-sm font-medium ${event.completed ? 'line-through text-slate-500' : 'text-slate-800'}`}>
                                                         {(event.data as CalendarTask).title}
                                                     </p>
                                                     <p className="text-xs text-slate-600">{(event.data as CalendarTask).description}</p>
