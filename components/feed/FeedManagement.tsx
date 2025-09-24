@@ -1,9 +1,9 @@
-
 import React, { useState, useEffect, useMemo } from 'react';
 import Card from '../ui/Card';
 import { useData } from '../../context/DataContext';
 import { RecordType, FeedPurchaseRecord, PoultryCountChangeRecord } from '../../types';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import FeedGauge from './FeedGauge';
 
 const FeedManagement: React.FC = () => {
     const { state, dispatch } = useData();
@@ -27,8 +27,7 @@ const FeedManagement: React.FC = () => {
     };
 
     const feedDaysLeft = editableFeed.total > 0 && editableFeed.dailyConsumption > 0 ? Math.floor(editableFeed.total / editableFeed.dailyConsumption) : 0;
-    const stockPercentage = 5000; // Assuming max capacity is 5000kg for percentage calculation
-    const percentage = Math.min((editableFeed.total / stockPercentage) * 100, 100);
+    const stockCapacity = 5000; // Assuming max capacity is 5000kg for percentage calculation
 
     const feedPurchaseHistory = useMemo(() => {
         return records
@@ -99,28 +98,22 @@ const FeedManagement: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <Card>
-                    <h3 className="text-lg font-semibold text-slate-900 mb-4">Current Stock</h3>
+                <Card className="min-h-[280px]">
+                    <h3 className="text-lg font-semibold text-slate-900 mb-1">Current Stock</h3>
                     {isEditing ? (
-                        <div>
+                        <div className="flex flex-col items-center justify-center h-full pt-8">
                             <label className="block text-sm font-medium text-slate-600 mb-1">Total Stock (kg)</label>
                             <input 
                                 type="number"
                                 value={editableFeed.total}
                                 onChange={e => setEditableFeed({...editableFeed, total: Number(e.target.value)})}
-                                className={`${inputStyles} text-2xl font-bold`}
+                                className={`${inputStyles} text-2xl font-bold w-48 text-center`}
                             />
+                            <p className="text-sm text-slate-500 mt-2">Max Capacity: {stockCapacity.toLocaleString()} kg</p>
                         </div>
                     ) : (
-                        <p className="text-4xl font-bold text-slate-900">{feed.total.toLocaleString()} kg</p>
+                        <FeedGauge value={feed.total} maxValue={stockCapacity} />
                     )}
-                     <div className="w-full bg-slate-200 h-4 mt-4 rounded-full overflow-hidden">
-                        <div 
-                            className="bg-green-600 h-full"
-                            style={{ width: `${percentage}%` }}
-                        ></div>
-                    </div>
-                    <p className="text-sm text-slate-500 mt-2 text-right">{percentage.toFixed(1)}% of 5,000kg capacity</p>
                 </Card>
                 <Card>
                     <h3 className="text-lg font-semibold text-slate-900">Consumption Details</h3>

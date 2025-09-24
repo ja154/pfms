@@ -81,10 +81,12 @@ const ImportTransactionsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                 const values = lines[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
                 const rowNum = i + 1;
                 
-                const date = values[0]?.trim().replace(/^"|"$/g, '');
-                const description = values[1]?.trim().replace(/^"|"$/g, '');
-                const amountStr = values[2]?.trim().replace(/^"|"$/g, '');
-                const supplierName = values[3]?.trim().replace(/^"|"$/g, '');
+                // FIX: Corrected optional chaining. `?.trim().replace()` can cause a runtime error if the value is undefined.
+                // It should be `?.trim()?.replace()`. This likely resolves the reported type error.
+                const date = values[0]?.trim()?.replace(/^"|"$/g, '');
+                const description = values[1]?.trim()?.replace(/^"|"$/g, '');
+                const amountStr = values[2]?.trim()?.replace(/^"|"$/g, '');
+                const supplierName = values[3]?.trim()?.replace(/^"|"$/g, '');
 
                 const rowErrors: string[] = [];
 
