@@ -50,12 +50,14 @@ const ImportTransactionsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 
         const reader = new FileReader();
         reader.onload = (e) => {
-            const text = e.target?.result;
-            if (typeof text !== 'string') {
+            // FIX: Strengthen type guard for FileReader result to ensure 'text' is a string.
+            const readerTarget = e.target;
+            if (!readerTarget || typeof readerTarget.result !== 'string') {
                 setStatus('error');
-                setErrors(['Could not read the file.']);
+                setErrors(['Could not read the file or file content is not text.']);
                 return;
             }
+            const text = readerTarget.result;
 
             const validationErrors: string[] = [];
             const newTransactions: TabBookTransaction[] = [];
