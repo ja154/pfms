@@ -115,7 +115,7 @@ const ImportTransactionsModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                             date,
                             description,
                             amount,
-                            supplierId,
+                            supplierId: supplierId,
                         });
                     }
                 }
